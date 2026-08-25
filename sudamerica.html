@@ -1260,7 +1260,8 @@ const SUDAMERICA={
    VARIABLES
 ===================================================== */
 
-let geojson=null;
+//let geojson=null;
+let geojson=sudamerica;
 
 let paises={};
 
@@ -1349,12 +1350,12 @@ async function cargarGeoJSON() {
 
     try {
 
-        geojson = sudamerica;
+        //geojson = sudamerica;
 
-        console.log(
-            "GeoJSON cargado:",
-            geojson
-        );
+        //console.log(
+        //    "GeoJSON cargado:",
+        //    geojson
+        //);
 
         crearFondoMundo();
 
