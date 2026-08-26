@@ -1,67 +1,1144 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Ejemplo</title>
+<meta charset="UTF-8">
 
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=5.0,
+               user-scalable=yes">
 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+<title>Juego de Capitales</title>
 
-            background-color: #FFC477;
-            font-family: Arial, sans-serif;
-        }
+<style>
 
-        button {
-            width: 220px;
-            padding: 15px;
-            margin: 10px;
+/* =========================
+   GENERAL
+========================= */
 
-            font-size: 18px;
-            border: none;
-            border-radius: 10px;
+* {
+    box-sizing: border-box;
+}
 
-            background-color: #E66F00;
-            color: white;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    color: #222;
+}
 
-            cursor: pointer;
-        }
 
-        button:active {
-            transform: scale(0.97);
-        }
-    </style>
+/* =========================
+   ENCABEZADO
+========================= */
+
+header {
+    background: #e89b45;
+    color: white;
+    padding: 12px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+
+/* =========================
+   JUEGO
+========================= */
+
+#capitales {
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+}
+
+
+/* =========================
+   NÚMERO DE PREGUNTA
+========================= */
+
+#numeroPregunta {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+
+/* =========================
+   PREGUNTA
+========================= */
+
+#preguntaCapital {
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+
+/* =========================
+   OPCIONES
+========================= */
+
+.opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.opciones button {
+    width: 100%;
+    background: #eeeeee;
+    color: #222;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.opciones button:hover {
+    background: #ddd;
+}
+
+.opciones button.correcta {
+    background: #63b36b;
+    color: white;
+    border-color: #4b9853;
+}
+
+.opciones button.incorrecta {
+    background: #d9534f;
+    color: white;
+    border-color: #b93e3a;
+}
+
+
+/* =========================
+   RESULTADO
+========================= */
+
+#resultadoCapital {
+    text-align: center;
+    font-size: 19px;
+    font-weight: bold;
+    min-height: 30px;
+    margin: 15px;
+}
+
+
+/* =========================
+   BOTÓN SIGUIENTE
+========================= */
+
+#btnSiguiente {
+    display: block;
+    margin: 20px auto;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-size: 16px;
+    cursor: pointer;
+    background: #e89b45;
+    color: white;
+}
+
+#btnSiguiente:hover {
+    background: #d78328;
+}
+
+
+/* =========================
+   ESTADÍSTICAS
+========================= */
+
+#estadisticasCapital {
+    text-align: center;
+    background: white;
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 8px;
+}
+
+
+/* =========================
+   ERRORES
+========================= */
+
+#erroresDetalle {
+    max-width: 700px;
+    margin: 15px auto;
+    text-align: left;
+}
+
+.errorItem {
+    background: #ffe5e5;
+    border-left: 5px solid #d9534f;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+}
+
+
+/* =========================
+   FIN DE RONDA
+========================= */
+
+#finRonda {
+    display: none;
+    text-align: center;
+    padding: 20px;
+}
+
+#finRonda h2 {
+    font-size: 28px;
+}
+
+#resultadoFinal {
+    font-size: 21px;
+    margin: 20px;
+}
+
+#finRonda button {
+    border: none;
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-size: 16px;
+    cursor: pointer;
+    background: #e89b45;
+    color: white;
+}
+
+#finRonda button:hover {
+    background: #d78328;
+}
+
+
+/* =========================
+   MÓVILES
+========================= */
+
+@media (max-width: 600px) {
+
+    header h1 {
+        font-size: 21px;
+    }
+
+    #capitales {
+        padding: 15px;
+    }
+
+    #preguntaCapital {
+        font-size: 22px;
+    }
+
+    .opciones button {
+        font-size: 18px;
+        padding: 13px;
+    }
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
-    <button onclick="mostrarMensaje1()">
-        Botón 1
-    </button>
 
-    <button onclick="mostrarMensaje2()">
-        Botón 2
-    </button>
+<header>
 
-    <script>
+<h1>🏛️ Juego de Capitales</h1>
 
-        function mostrarMensaje1() {
-            alert("Este es el mensaje del botón 1");
+</header>
+
+
+<div id="capitales">
+
+
+<!-- =========================
+     NÚMERO DE PREGUNTA
+========================= -->
+
+<div id="numeroPregunta">
+Pregunta 1 de 12
+</div>
+
+
+<!-- =========================
+     PREGUNTA
+========================= -->
+
+<div id="preguntaCapital">
+¿Cuál es la capital?
+</div>
+
+
+<!-- =========================
+     OPCIONES
+========================= -->
+
+<div class="opciones">
+
+<button id="opcion0"
+        onclick="responderCapital(0)">
+</button>
+
+<button id="opcion1"
+        onclick="responderCapital(1)">
+</button>
+
+<button id="opcion2"
+        onclick="responderCapital(2)">
+</button>
+
+</div>
+
+
+<!-- =========================
+     RESULTADO
+========================= -->
+
+<div id="resultadoCapital"></div>
+
+
+<!-- =========================
+     SIGUIENTE
+========================= -->
+
+<button id="btnSiguiente"
+        onclick="siguienteCapital()">
+
+Siguiente pregunta
+
+</button>
+
+
+<!-- =========================
+     ESTADÍSTICAS
+========================= -->
+
+<div id="estadisticasCapital">
+
+Aciertos:
+<strong id="aciertosCapital">0</strong>
+
+&nbsp;&nbsp;&nbsp;
+
+Errores:
+<strong id="erroresCapital">0</strong>
+
+</div>
+
+
+<!-- =========================
+     DETALLE DE ERRORES
+========================= -->
+
+<div id="erroresDetalle"></div>
+
+
+<!-- =========================
+     FIN DE RONDA
+========================= -->
+
+<div id="finRonda">
+
+<h2>🎉 ¡Ronda terminada!</h2>
+
+<div id="resultadoFinal"></div>
+
+<button onclick="nuevaRondaCapitales()">
+
+🔄 Nueva ronda
+
+</button>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   PAÍSES Y CAPITALES
+===================================================== */
+
+const paises = [
+
+    {
+        nombre: "Argentina",
+        capital: "Buenos Aires"
+    },
+
+    {
+        nombre: "Bolivia",
+        capital: "Sucre"
+    },
+
+    {
+        nombre: "Brasil",
+        capital: "Brasilia"
+    },
+
+    {
+        nombre: "Chile",
+        capital: "Santiago"
+    },
+
+    {
+        nombre: "Colombia",
+        capital: "Bogotá"
+    },
+
+    {
+        nombre: "Ecuador",
+        capital: "Quito"
+    },
+
+    {
+        nombre: "Guyana",
+        capital: "Georgetown"
+    },
+
+    {
+        nombre: "Paraguay",
+        capital: "Asunción"
+    },
+
+    {
+        nombre: "Perú",
+        capital: "Lima"
+    },
+
+    {
+        nombre: "Surinam",
+        capital: "Paramaribo"
+    },
+
+    {
+        nombre: "Uruguay",
+        capital: "Montevideo"
+    },
+
+    {
+        nombre: "Venezuela",
+        capital: "Caracas"
+    }
+
+];
+
+
+/* =====================================================
+   VARIABLES DEL JUEGO
+===================================================== */
+
+let capitalActual = null;
+
+let opcionesCapitales = [];
+
+let respuestaCorrectaCapital = -1;
+
+let aciertosCapital = 0;
+
+let erroresCapital = 0;
+
+let erroresCapitalDetalle = [];
+
+let capitalesRespondida = false;
+
+
+/*
+   Países que todavía no fueron preguntados
+   durante la ronda actual.
+*/
+
+let paisesPendientes = [];
+
+
+/*
+   Número de pregunta actual.
+*/
+
+let numeroPreguntaCapital = 0;
+
+
+/* =====================================================
+   NUEVA RONDA
+===================================================== */
+
+function nuevaRondaCapitales() {
+
+
+    /*
+       Mostrar nuevamente el juego.
+    */
+
+    document.getElementById(
+        "finRonda"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "preguntaCapital"
+    ).style.display = "block";
+
+
+    document.querySelector(
+        ".opciones"
+    ).style.display = "flex";
+
+
+    document.getElementById(
+        "btnSiguiente"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "numeroPregunta"
+    ).style.display = "block";
+
+
+    /*
+       Reiniciar estadísticas.
+    */
+
+    aciertosCapital = 0;
+
+    erroresCapital = 0;
+
+    erroresCapitalDetalle = [];
+
+
+    /*
+       Crear una copia de todos los países.
+    */
+
+    paisesPendientes =
+        paises.slice();
+
+
+    /*
+       Mezclar los países.
+    */
+
+    mezclarArray(
+        paisesPendientes
+    );
+
+
+    /*
+       Reiniciar número de pregunta.
+    */
+
+    numeroPreguntaCapital = 0;
+
+
+    /*
+       Actualizar estadísticas.
+    */
+
+    document.getElementById(
+        "aciertosCapital"
+    ).textContent = "0";
+
+
+    document.getElementById(
+        "erroresCapital"
+    ).textContent = "0";
+
+
+    document.getElementById(
+        "erroresDetalle"
+    ).innerHTML = "";
+
+
+    /*
+       Comenzar primera pregunta.
+    */
+
+    siguienteCapital();
+
+}
+
+
+/* =====================================================
+   MEZCLAR ARRAY
+===================================================== */
+
+function mezclarArray(array) {
+
+
+    for (
+        let i = array.length - 1;
+        i > 0;
+        i--
+    ) {
+
+        const j =
+            Math.floor(
+                Math.random() * (i + 1)
+            );
+
+
+        const temporal =
+            array[i];
+
+
+        array[i] =
+            array[j];
+
+
+        array[j] =
+            temporal;
+
+    }
+
+}
+
+
+/* =====================================================
+   SIGUIENTE PREGUNTA
+===================================================== */
+
+function siguienteCapital() {
+
+
+    /*
+       Si no quedan países,
+       termina la ronda.
+    */
+
+    if (
+        paisesPendientes.length === 0
+    ) {
+
+        terminarRondaCapitales();
+
+        return;
+
+    }
+
+
+    /*
+       Reiniciar estado de respuesta.
+    */
+
+    capitalesRespondida = false;
+
+
+    /*
+       Limpiar resultado.
+    */
+
+    document.getElementById(
+        "resultadoCapital"
+    ).innerHTML = "";
+
+
+    /*
+       Habilitar botones.
+    */
+
+    const botones =
+        document.querySelectorAll(
+            ".opciones button"
+        );
+
+
+    botones.forEach(
+        function(boton) {
+
+            boton.disabled = false;
+
+            boton.classList.remove(
+                "correcta"
+            );
+
+            boton.classList.remove(
+                "incorrecta"
+            );
+
         }
+    );
 
-        function mostrarMensaje2() {
-            alert("Este es el mensaje del botón 2");
+
+    /*
+       Tomar el primer país
+       y eliminarlo de la lista.
+
+       De esta manera un país
+       nunca se repite dentro
+       de la misma ronda.
+    */
+
+    capitalActual =
+        paisesPendientes.shift();
+
+
+    /*
+       Aumentar número de pregunta.
+    */
+
+    numeroPreguntaCapital++;
+
+
+    document.getElementById(
+        "numeroPregunta"
+    ).textContent =
+
+        "Pregunta " +
+        numeroPreguntaCapital +
+        " de 12";
+
+
+    /*
+       Crear respuesta correcta.
+    */
+
+    let respuestas = [
+
+        capitalActual.capital
+
+    ];
+
+
+    /*
+       Obtener países candidatos
+       para respuestas incorrectas.
+    */
+
+    let candidatos =
+        paises.filter(
+            function(pais) {
+
+                return (
+                    pais.nombre !==
+                    capitalActual.nombre
+                );
+
+            }
+        );
+
+
+    /*
+       Mezclar candidatos.
+    */
+
+    mezclarArray(
+        candidatos
+    );
+
+
+    /*
+       Agregar dos respuestas incorrectas.
+    */
+
+    respuestas.push(
+        candidatos[0].capital
+    );
+
+    respuestas.push(
+        candidatos[1].capital
+    );
+
+
+    /*
+       Mezclar las tres respuestas.
+    */
+
+    mezclarArray(
+        respuestas
+    );
+
+
+    /*
+       Guardar opciones.
+    */
+
+    opcionesCapitales =
+        respuestas;
+
+
+    /*
+       Encontrar posición
+       de la respuesta correcta.
+    */
+
+    respuestaCorrectaCapital =
+        respuestas.indexOf(
+            capitalActual.capital
+        );
+
+
+    /*
+       Mostrar pregunta.
+    */
+
+    document.getElementById(
+        "preguntaCapital"
+    ).innerHTML =
+
+        "🏛️ ¿Cuál es la capital de " +
+
+        "<strong>" +
+
+        capitalActual.nombre +
+
+        "</strong>?";
+
+
+    /*
+       Mostrar las tres opciones.
+    */
+
+    for (
+        let i = 0;
+        i < 3;
+        i++
+    ) {
+
+        document.getElementById(
+            "opcion" + i
+        ).textContent =
+            respuestas[i];
+
+    }
+
+}
+
+
+/* =====================================================
+   RESPONDER
+===================================================== */
+
+function responderCapital(indice) {
+
+
+    /*
+       Evitar que se pueda responder
+       más de una vez.
+    */
+
+    if (
+        capitalesRespondida
+    ) {
+
+        return;
+
+    }
+
+
+    capitalesRespondida = true;
+
+
+    const botones =
+        document.querySelectorAll(
+            ".opciones button"
+        );
+
+
+    /*
+       Deshabilitar todos
+       los botones.
+    */
+
+    botones.forEach(
+        function(boton) {
+
+            boton.disabled = true;
+
         }
+    );
 
-    </script>
+
+    /*
+       RESPUESTA CORRECTA
+    */
+
+    if (
+        indice ===
+        respuestaCorrectaCapital
+    ) {
+
+
+        aciertosCapital++;
+
+
+        document.getElementById(
+            "aciertosCapital"
+        ).textContent =
+            aciertosCapital;
+
+
+        botones[indice]
+            .classList.add(
+                "correcta"
+            );
+
+
+        document.getElementById(
+            "resultadoCapital"
+        ).innerHTML =
+            "✅ ¡Correcto!";
+
+    }
+
+
+    /*
+       RESPUESTA INCORRECTA
+    */
+
+    else {
+
+
+        erroresCapital++;
+
+
+        document.getElementById(
+            "erroresCapital"
+        ).textContent =
+            erroresCapital;
+
+
+        /*
+           Marcar respuesta elegida
+           como incorrecta.
+        */
+
+        botones[indice]
+            .classList.add(
+                "incorrecta"
+            );
+
+
+        /*
+           Marcar respuesta correcta.
+        */
+
+        botones[
+            respuestaCorrectaCapital
+        ]
+            .classList.add(
+                "correcta"
+            );
+
+
+        /*
+           Guardar error.
+        */
+
+        erroresCapitalDetalle.push({
+
+            pais:
+                capitalActual.nombre,
+
+            elegida:
+                opcionesCapitales[indice],
+
+            correcta:
+                capitalActual.capital
+
+        });
+
+
+        /*
+           Mostrar explicación.
+        */
+
+        document.getElementById(
+            "resultadoCapital"
+        ).innerHTML =
+
+            "❌ Incorrecto. " +
+
+            "La capital es " +
+
+            "<strong>" +
+
+            capitalActual.capital +
+
+            "</strong>";
+
+
+        /*
+           Actualizar lista
+           de errores.
+        */
+
+        actualizarErroresCapital();
+
+    }
+
+}
+
+
+/* =====================================================
+   MOSTRAR ERRORES
+===================================================== */
+
+function actualizarErroresCapital() {
+
+
+    const contenedor =
+        document.getElementById(
+            "erroresDetalle"
+        );
+
+
+    contenedor.innerHTML =
+        "<h3>Capitales que fallaste</h3>";
+
+
+    erroresCapitalDetalle.forEach(
+        function(error) {
+
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.className =
+                "errorItem";
+
+
+            div.innerHTML =
+
+                "<strong>" +
+                error.pais +
+                "</strong><br>" +
+
+                "Elegiste: " +
+                error.elegida +
+                "<br>" +
+
+                "Correcta: " +
+                error.correcta;
+
+
+            contenedor.appendChild(
+                div
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   FINAL DE RONDA
+===================================================== */
+
+function terminarRondaCapitales() {
+
+
+    /*
+       Ocultar juego.
+    */
+
+    document.getElementById(
+        "preguntaCapital"
+    ).style.display = "none";
+
+
+    document.querySelector(
+        ".opciones"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "btnSiguiente"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "numeroPregunta"
+    ).style.display = "none";
+
+
+    /*
+       Mostrar resultado final.
+    */
+
+    document.getElementById(
+        "finRonda"
+    ).style.display = "block";
+
+
+    /*
+       Calcular porcentaje.
+    */
+
+    const porcentaje =
+
+        Math.round(
+            (
+                aciertosCapital / 12
+            ) * 100
+        );
+
+
+    /*
+       Mostrar resultado.
+    */
+
+    document.getElementById(
+        "resultadoFinal"
+    ).innerHTML =
+
+        "🏆 Resultado: " +
+
+        "<strong>" +
+
+        aciertosCapital +
+
+        "/12</strong><br>" +
+
+        "Porcentaje: " +
+
+        "<strong>" +
+
+        porcentaje +
+
+        "%</strong><br><br>" +
+
+        "❌ Errores: " +
+
+        "<strong>" +
+
+        erroresCapital +
+
+        "</strong>";
+
+}
+
+
+/* =====================================================
+   INICIO
+===================================================== */
+
+window.onload = function() {
+
+    nuevaRondaCapitales();
+
+};
+
+</script>
 
 </body>
+
 </html>
