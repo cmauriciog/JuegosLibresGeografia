@@ -8,7 +8,6 @@ content="width=device-width,
 initial-scale=1.0,
 maximum-scale=1.0,
 user-scalable=no">
-<script src="sudamerica.geojson" type="text/javascript"></script>
 
 <title>Juego de Países - Sudamérica</title>
 
@@ -1260,8 +1259,7 @@ const SUDAMERICA={
    VARIABLES
 ===================================================== */
 
-//let geojson=null;
-let geojson=sudamerica;
+let geojson=null;
 
 let paises={};
 
@@ -1276,7 +1274,6 @@ let aciertos=0;
 let errores=0;
 
 let juegoActivo=false;
-
 
 /*
    Guardamos el detalle de cada error.
@@ -1346,16 +1343,63 @@ document.getElementById("paises");
    CARGAR MAPA
 ===================================================== */
 
-async function cargarGeoJSON() {
 
-    try {
+//async function cargarGeoJSON() {
 
-        //geojson = sudamerica;
+//    try {
+
+//        geojson = sudamerica;
 
         //console.log(
         //    "GeoJSON cargado:",
         //    geojson
         //);
+
+//        crearFondoMundo();
+
+//        document
+//            .getElementById("cargando")
+//            .style.display = "none";
+
+//    } catch (error) {
+
+//        console.error(
+//            "Error cargando GeoJSON:",
+//            error
+//        );
+
+//        document
+//            .getElementById("cargando")
+//            .innerHTML =
+//                "No se pudo cargar el mapa.<br><br>" +
+//                error.message;
+
+//    }
+
+//}
+
+async function cargarGeoJSON() {
+
+    try {
+
+        const respuesta =
+            await fetch("./sudamerica.geojson");
+
+        if (!respuesta.ok) {
+            throw new Error(
+                "HTTP " + respuesta.status +
+                " - No se pudo cargar sudamerica.geojson"
+            );
+        }
+
+        geojson =
+            await respuesta.json();
+
+        console.log(
+            "GeoJSON cargado correctamente:",
+            geojson.features.length,
+            "países"
+        );
 
         crearFondoMundo();
 
@@ -1373,7 +1417,7 @@ async function cargarGeoJSON() {
         document
             .getElementById("cargando")
             .innerHTML =
-                "No se pudo cargar el mapa.<br><br>" +
+                "❌ No se pudo cargar el mapa.<br><br>" +
                 error.message;
 
     }
@@ -1522,7 +1566,7 @@ function crearFondoMundo(){
         }
     );
 
-}
+};
 
 
 /* =====================================================
