@@ -1384,21 +1384,17 @@ async function cargarGeoJSON() {
 
         console.log("Cargando GeoJSON...");
 
-        const respuesta =
-            await fetch("./sudamerica.geojson");
+        const respuesta = await fetch("./sudamerica.geojson");
 
         if (!respuesta.ok) {
-
             throw new Error(
                 "HTTP " +
                 respuesta.status +
                 " - No se pudo cargar sudamerica.geojson"
             );
-
         }
 
-        geojson =
-            await respuesta.json();
+        geojson = await respuesta.json();
 
         console.log(
             "GeoJSON cargado correctamente:",
@@ -1406,7 +1402,7 @@ async function cargarGeoJSON() {
             "features"
         );
 
-        crearFondoMundo();
+        //crearFondoMundo();
 
         document
             .getElementById("cargando")
@@ -1414,10 +1410,7 @@ async function cargarGeoJSON() {
 
     } catch (error) {
 
-        console.error(
-            "Error cargando GeoJSON:",
-            error
-        );
+        console.error("Error cargando GeoJSON:", error);
 
         geojson = null;
 
@@ -1426,9 +1419,7 @@ async function cargarGeoJSON() {
             .innerHTML =
                 "❌ No se pudo cargar el mapa.<br><br>" +
                 error.message;
-
     }
-
 }
 
 
