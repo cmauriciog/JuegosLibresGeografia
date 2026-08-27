@@ -6,1136 +6,1484 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-      content="width=device-width,
-               initial-scale=1.0,
-               maximum-scale=5.0,
-               user-scalable=yes">
+content="width=device-width, initial-scale=1.0">
 
-<title>Juego de Capitales</title>
+<title>Adivinar el país</title>
+
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
 <style>
 
-/* =========================
-   GENERAL
-========================= */
-
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    color: #222;
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f6f1e8;
+    color:#333;
 }
 
-
-/* =========================
-   ENCABEZADO
-========================= */
-
-header {
-    background: #e89b45;
-    color: white;
-    padding: 12px;
-    text-align: center;
+header{
+    background:#e58b3a;
+    color:white;
+    text-align:center;
+    padding:12px;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 24px;
+header h1{
+    margin:0;
+    font-size:24px;
 }
 
-
-/* =========================
-   JUEGO
-========================= */
-
-#capitales {
-    max-width: 700px;
-    margin: auto;
-    padding: 20px;
+#configuracion{
+    background:white;
+    padding:15px;
+    text-align:center;
 }
 
-
-/* =========================
-   NÚMERO DE PREGUNTA
-========================= */
-
-#numeroPregunta {
-    text-align: center;
-    font-size: 18px;
-    color: #666;
-    margin-bottom: 10px;
+#configuracion h2{
+    margin:0 0 12px;
+    font-size:20px;
 }
 
-
-/* =========================
-   PREGUNTA
-========================= */
-
-#preguntaCapital {
-    text-align: center;
-    font-size: 25px;
-    font-weight: bold;
-    margin: 20px 0;
+select{
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #aaa;
+    font-size:16px;
+    margin:5px;
+    background:white;
 }
 
-
-/* =========================
-   OPCIONES
-========================= */
-
-.opciones {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+button{
+    border:none;
+    border-radius:8px;
+    padding:10px 18px;
+    margin:8px 4px;
+    background:#e58b3a;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
 }
 
-.opciones button {
-    width: 100%;
-    background: #eeeeee;
-    color: #222;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    padding: 14px;
-    font-size: 20px;
-    cursor: pointer;
+button:hover{
+    background:#c96f20;
 }
 
-.opciones button:hover {
-    background: #ddd;
+#panelJuego{
+    display:none;
+    background:white;
+    padding:10px;
+    text-align:center;
 }
 
-.opciones button.correcta {
-    background: #63b36b;
-    color: white;
-    border-color: #4b9853;
+#objetivo{
+    font-size:24px;
+    font-weight:bold;
 }
 
-.opciones button.incorrecta {
-    background: #d9534f;
-    color: white;
-    border-color: #b93e3a;
+#continente{
+    color:#777;
+    margin:5px;
 }
 
-
-/* =========================
-   RESULTADO
-========================= */
-
-#resultadoCapital {
-    text-align: center;
-    font-size: 19px;
-    font-weight: bold;
-    min-height: 30px;
-    margin: 15px;
+#marcadores{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+    font-weight:bold;
 }
 
-
-/* =========================
-   BOTÓN SIGUIENTE
-========================= */
-
-#btnSiguiente {
-    display: block;
-    margin: 20px auto;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 18px;
-    font-size: 16px;
-    cursor: pointer;
-    background: #e89b45;
-    color: white;
+#map{
+    width:100%;
+    height:calc(100vh - 230px);
+    min-height:400px;
 }
 
-#btnSiguiente:hover {
-    background: #d78328;
+#resultado{
+    display:none;
+    position:fixed;
+    z-index:5000;
+    inset:0;
+    background:rgba(0,0,0,.6);
+    align-items:center;
+    justify-content:center;
+    padding:20px;
 }
 
-
-/* =========================
-   ESTADÍSTICAS
-========================= */
-
-#estadisticasCapital {
-    text-align: center;
-    background: white;
-    padding: 15px;
-    font-size: 18px;
-    border-radius: 8px;
+#resultadoCaja{
+    background:white;
+    border-radius:15px;
+    padding:22px;
+    width:min(520px,100%);
+    max-height:85vh;
+    overflow:auto;
+    text-align:center;
 }
 
-
-/* =========================
-   ERRORES
-========================= */
-
-#erroresDetalle {
-    max-width: 700px;
-    margin: 15px auto;
-    text-align: left;
+#resultadoCaja h2{
+    margin-top:0;
 }
 
-.errorItem {
-    background: #ffe5e5;
-    border-left: 5px solid #d9534f;
-    padding: 10px;
-    margin-bottom: 8px;
-    border-radius: 5px;
+.error{
+    text-align:left;
+    border-bottom:1px solid #ddd;
+    padding:9px;
 }
 
-
-/* =========================
-   FIN DE RONDA
-========================= */
-
-#finRonda {
-    display: none;
-    text-align: center;
-    padding: 20px;
+.correcto{
+    color:#16803c;
 }
 
-#finRonda h2 {
-    font-size: 28px;
+.incorrecto{
+    color:#c5221f;
 }
 
-#resultadoFinal {
-    font-size: 21px;
-    margin: 20px;
-}
-
-#finRonda button {
-    border: none;
-    border-radius: 8px;
-    padding: 12px 18px;
-    font-size: 16px;
-    cursor: pointer;
-    background: #e89b45;
-    color: white;
-}
-
-#finRonda button:hover {
-    background: #d78328;
-}
-
-
-/* =========================
-   MÓVILES
-========================= */
-
-@media (max-width: 600px) {
-
-    header h1 {
-        font-size: 21px;
-    }
-
-    #capitales {
-        padding: 15px;
-    }
-
-    #preguntaCapital {
-        font-size: 22px;
-    }
-
-    .opciones button {
-        font-size: 18px;
-        padding: 13px;
-    }
-
+#botonNueva{
+    display:none;
 }
 
 </style>
 
 </head>
 
-
 <body>
 
 
 <header>
 
-<h1>🏛️ Juego de Capitales</h1>
+<h1>🌎 Adivinar el país</h1>
 
 </header>
 
 
-<div id="capitales">
+<!-- =====================================================
+     CONFIGURACIÓN
+===================================================== -->
+
+<div id="configuracion">
+
+<h2>🎮 Configurá la partida</h2>
 
 
-<!-- =========================
-     NÚMERO DE PREGUNTA
-========================= -->
+<div>
 
-<div id="numeroPregunta">
-Pregunta 1 de 12
+<label>
+Continente:
+</label>
+
+<select id="selectorContinente">
+
+<option value="Todos">
+🌎 Todos
+</option>
+
+<option value="América del Norte">
+🌎 América del Norte
+</option>
+
+<option value="América Central">
+🌴 América Central
+</option>
+
+<option value="Caribe">
+🏝️ Caribe
+</option>
+
+<option value="América del Sur">
+🌎 América del Sur
+</option>
+
+<option value="Europa">
+🇪🇺 Europa
+</option>
+
+<option value="África">
+🌍 África
+</option>
+
+<option value="Asia">
+🌏 Asia
+</option>
+
+<option value="Oceanía">
+🦘 Oceanía
+</option>
+
+</select>
+
 </div>
 
 
-<!-- =========================
-     PREGUNTA
-========================= -->
+<div>
 
-<div id="preguntaCapital">
-¿Cuál es la capital?
+<label>
+Preguntas:
+</label>
+
+<select id="selectorCantidad">
+
+<option value="10">
+10
+</option>
+
+<option value="20">
+20
+</option>
+
+<option value="50">
+50
+</option>
+
+<option value="todos">
+Todos
+</option>
+
+</select>
+
 </div>
 
 
-<!-- =========================
-     OPCIONES
-========================= -->
+<br>
 
-<div class="opciones">
 
-<button id="opcion0"
-        onclick="responderCapital(0)">
-</button>
+<button onclick="comenzarPartida()">
 
-<button id="opcion1"
-        onclick="responderCapital(1)">
-</button>
+▶️ Comenzar partida
 
-<button id="opcion2"
-        onclick="responderCapital(2)">
 </button>
 
 </div>
 
 
-<!-- =========================
+
+<!-- =====================================================
+     PANEL DEL JUEGO
+===================================================== -->
+
+<div id="panelJuego">
+
+<div id="objetivo">
+Encontrá el país
+</div>
+
+<div id="continente"></div>
+
+
+<div id="marcadores">
+
+<span>
+🌎 Pregunta:
+<b id="numero">0</b>
+</span>
+
+<span>
+✅ Aciertos:
+<b id="aciertos">0</b>
+</span>
+
+<span>
+❌ Errores:
+<b id="errores">0</b>
+</span>
+
+</div>
+
+
+<button
+id="botonNueva"
+onclick="mostrarConfiguracion()">
+
+⚙️ Nueva partida
+
+</button>
+
+</div>
+
+
+
+<!-- =====================================================
+     MAPA
+===================================================== -->
+
+<div id="map"></div>
+
+
+
+<!-- =====================================================
      RESULTADO
-========================= -->
+===================================================== -->
 
-<div id="resultadoCapital"></div>
+<div id="resultado">
 
+<div id="resultadoCaja">
 
-<!-- =========================
-     SIGUIENTE
-========================= -->
+<h2>🏁 Partida terminada</h2>
 
-<button id="btnSiguiente"
-        onclick="siguienteCapital()">
+<div id="resumen"></div>
 
-Siguiente pregunta
-
-</button>
+<div id="detalle"></div>
 
 
-<!-- =========================
-     ESTADÍSTICAS
-========================= -->
+<button onclick="mostrarConfiguracion()">
 
-<div id="estadisticasCapital">
-
-Aciertos:
-<strong id="aciertosCapital">0</strong>
-
-&nbsp;&nbsp;&nbsp;
-
-Errores:
-<strong id="erroresCapital">0</strong>
-
-</div>
-
-
-<!-- =========================
-     DETALLE DE ERRORES
-========================= -->
-
-<div id="erroresDetalle"></div>
-
-
-<!-- =========================
-     FIN DE RONDA
-========================= -->
-
-<div id="finRonda">
-
-<h2>🎉 ¡Ronda terminada!</h2>
-
-<div id="resultadoFinal"></div>
-
-<button onclick="nuevaRondaCapitales()">
-
-🔄 Nueva ronda
+🎮 Jugar nuevamente
 
 </button>
 
 </div>
 
-
 </div>
+
+
+
+<script
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
 
 
 <script>
 
-
 /* =====================================================
-   PAÍSES Y CAPITALES
+   PAÍSES
 ===================================================== */
 
 const paises = [
 
-    {
-        nombre: "Argentina",
-        capital: "Buenos Aires"
-    },
+["Canadá","América del Norte"],
+["Estados Unidos","América del Norte"],
+["México","América del Norte"],
 
-    {
-        nombre: "Bolivia",
-        capital: "Sucre"
-    },
+["Belice","América Central"],
+["Costa Rica","América Central"],
+["El Salvador","América Central"],
+["Guatemala","América Central"],
+["Honduras","América Central"],
+["Nicaragua","América Central"],
+["Panamá","América Central"],
 
-    {
-        nombre: "Brasil",
-        capital: "Brasilia"
-    },
+["Bahamas","Caribe"],
+["Barbados","Caribe"],
+["Cuba","Caribe"],
+["Haití","Caribe"],
+["Jamaica","Caribe"],
+["República Dominicana","Caribe"],
+["Trinidad y Tobago","Caribe"],
 
-    {
-        nombre: "Chile",
-        capital: "Santiago"
-    },
+["Argentina","América del Sur"],
+["Bolivia","América del Sur"],
+["Brasil","América del Sur"],
+["Chile","América del Sur"],
+["Colombia","América del Sur"],
+["Ecuador","América del Sur"],
+["Guyana","América del Sur"],
+["Paraguay","América del Sur"],
+["Perú","América del Sur"],
+["Surinam","América del Sur"],
+["Uruguay","América del Sur"],
+["Venezuela","América del Sur"],
 
-    {
-        nombre: "Colombia",
-        capital: "Bogotá"
-    },
+["Albania","Europa"],
+["Alemania","Europa"],
+["Andorra","Europa"],
+["Austria","Europa"],
+["Bélgica","Europa"],
+["Bielorrusia","Europa"],
+["Bosnia y Herzegovina","Europa"],
+["Bulgaria","Europa"],
+["Chipre","Europa"],
+["Croacia","Europa"],
+["Dinamarca","Europa"],
+["Eslovaquia","Europa"],
+["Eslovenia","Europa"],
+["España","Europa"],
+["Estonia","Europa"],
+["Finlandia","Europa"],
+["Francia","Europa"],
+["Grecia","Europa"],
+["Hungría","Europa"],
+["Irlanda","Europa"],
+["Islandia","Europa"],
+["Italia","Europa"],
+["Letonia","Europa"],
+["Liechtenstein","Europa"],
+["Lituania","Europa"],
+["Luxemburgo","Europa"],
+["Malta","Europa"],
+["Moldavia","Europa"],
+["Mónaco","Europa"],
+["Montenegro","Europa"],
+["Noruega","Europa"],
+["Países Bajos","Europa"],
+["Polonia","Europa"],
+["Portugal","Europa"],
+["Reino Unido","Europa"],
+["República Checa","Europa"],
+["Rumania","Europa"],
+["Rusia","Europa"],
+["San Marino","Europa"],
+["Serbia","Europa"],
+["Suecia","Europa"],
+["Suiza","Europa"],
+["Ucrania","Europa"],
+["Ciudad del Vaticano","Europa"],
 
-    {
-        nombre: "Ecuador",
-        capital: "Quito"
-    },
+["Argelia","África"],
+["Angola","África"],
+["Benín","África"],
+["Botsuana","África"],
+["Burkina Faso","África"],
+["Burundi","África"],
+["Cabo Verde","África"],
+["Camerún","África"],
+["Chad","África"],
+["Comoras","África"],
+["Costa de Marfil","África"],
+["Egipto","África"],
+["Eritrea","África"],
+["Esuatini","África"],
+["Etiopía","África"],
+["Gabón","África"],
+["Gambia","África"],
+["Ghana","África"],
+["Guinea","África"],
+["Guinea-Bisáu","África"],
+["Guinea Ecuatorial","África"],
+["Kenia","África"],
+["Lesoto","África"],
+["Liberia","África"],
+["Libia","África"],
+["Madagascar","África"],
+["Malaui","África"],
+["Malí","África"],
+["Marruecos","África"],
+["Mauritania","África"],
+["Mauricio","África"],
+["Mozambique","África"],
+["Namibia","África"],
+["Níger","África"],
+["Nigeria","África"],
+["República Centroafricana","África"],
+["República del Congo","África"],
+["República Democrática del Congo","África"],
+["Ruanda","África"],
+["Senegal","África"],
+["Seychelles","África"],
+["Sierra Leona","África"],
+["Somalia","África"],
+["Sudáfrica","África"],
+["Sudán","África"],
+["Sudán del Sur","África"],
+["Tanzania","África"],
+["Togo","África"],
+["Túnez","África"],
+["Uganda","África"],
+["Yibuti","África"],
+["Zambia","África"],
+["Zimbabue","África"],
 
-    {
-        nombre: "Guyana",
-        capital: "Georgetown"
-    },
+["Afganistán","Asia"],
+["Arabia Saudita","Asia"],
+["Armenia","Asia"],
+["Azerbaiyán","Asia"],
+["Bangladés","Asia"],
+["Baréin","Asia"],
+["Bután","Asia"],
+["Brunéi","Asia"],
+["Camboya","Asia"],
+["China","Asia"],
+["Corea del Norte","Asia"],
+["Corea del Sur","Asia"],
+["Emiratos Árabes Unidos","Asia"],
+["Filipinas","Asia"],
+["Georgia","Asia"],
+["India","Asia"],
+["Indonesia","Asia"],
+["Irak","Asia"],
+["Irán","Asia"],
+["Israel","Asia"],
+["Japón","Asia"],
+["Jordania","Asia"],
+["Kazajistán","Asia"],
+["Kirguistán","Asia"],
+["Kuwait","Asia"],
+["Laos","Asia"],
+["Líbano","Asia"],
+["Malasia","Asia"],
+["Maldivas","Asia"],
+["Mongolia","Asia"],
+["Myanmar","Asia"],
+["Nepal","Asia"],
+["Omán","Asia"],
+["Pakistán","Asia"],
+["Palestina","Asia"],
+["Qatar","Asia"],
+["Singapur","Asia"],
+["Siria","Asia"],
+["Sri Lanka","Asia"],
+["Tailandia","Asia"],
+["Tayikistán","Asia"],
+["Timor Oriental","Asia"],
+["Turkmenistán","Asia"],
+["Turquía","Asia"],
+["Uzbekistán","Asia"],
+["Vietnam","Asia"],
+["Yemen","Asia"],
 
-    {
-        nombre: "Paraguay",
-        capital: "Asunción"
-    },
-
-    {
-        nombre: "Perú",
-        capital: "Lima"
-    },
-
-    {
-        nombre: "Surinam",
-        capital: "Paramaribo"
-    },
-
-    {
-        nombre: "Uruguay",
-        capital: "Montevideo"
-    },
-
-    {
-        nombre: "Venezuela",
-        capital: "Caracas"
-    }
+["Australia","Oceanía"],
+["Fiyi","Oceanía"],
+["Kiribati","Oceanía"],
+["Islas Marshall","Oceanía"],
+["Micronesia","Oceanía"],
+["Nauru","Oceanía"],
+["Nueva Zelanda","Oceanía"],
+["Palaos","Oceanía"],
+["Papúa Nueva Guinea","Oceanía"],
+["Samoa","Oceanía"],
+["Islas Salomón","Oceanía"],
+["Tonga","Oceanía"],
+["Tuvalu","Oceanía"],
+["Vanuatu","Oceanía"]
 
 ];
 
 
 /* =====================================================
-   VARIABLES DEL JUEGO
+   VARIABLES
 ===================================================== */
 
-let capitalActual = null;
+let mapa;
 
-let opcionesCapitales = [];
+let capaPaises;
 
-let respuestaCorrectaCapital = -1;
+let partida=[];
 
-let aciertosCapital = 0;
+let indice=0;
 
-let erroresCapital = 0;
+let aciertos=0;
 
-let erroresCapitalDetalle = [];
+let errores=0;
 
-let capitalesRespondida = false;
+let erroresDetalle=[];
 
+let esperando=false;
 
-/*
-   Países que todavía no fueron preguntados
-   durante la ronda actual.
-*/
-
-let paisesPendientes = [];
-
-
-/*
-   Número de pregunta actual.
-*/
-
-let numeroPreguntaCapital = 0;
 
 
 /* =====================================================
-   NUEVA RONDA
+   CENTROS Y ZOOM
 ===================================================== */
 
-function nuevaRondaCapitales() {
+const vistasContinentes = {
+
+    "Todos":{
+        centro:[20,0],
+        zoom:2
+    },
+
+    "América del Norte":{
+        centro:[45,-100],
+        zoom:3
+    },
+
+    "América Central":{
+        centro:[15,-85],
+        zoom:5
+    },
+
+    "Caribe":{
+        centro:[20,-75],
+        zoom:5
+    },
+
+    "América del Sur":{
+        centro:[-15,-60],
+        zoom:3
+    },
+
+    "Europa":{
+        centro:[50,15],
+        zoom:4
+    },
+
+    "África":{
+        centro:[5,20],
+        zoom:3
+    },
+
+    "Asia":{
+        centro:[35,90],
+        zoom:3
+    },
+
+    "Oceanía":{
+        centro:[-20,140],
+        zoom:3
+    }
+
+};
 
 
-    /*
-       Mostrar nuevamente el juego.
-    */
+
+/* =====================================================
+   CREAR MAPA
+===================================================== */
+
+mapa = L.map(
+    "map",
+    {
+        minZoom:1,
+        maxZoom:7,
+        worldCopyJump:false
+    }
+).setView(
+    [20,0],
+    2
+);
+
+
+
+/* =====================================================
+   CARGAR GEOJSON
+===================================================== */
+
+fetch(
+"https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson"
+)
+
+.then(
+respuesta => respuesta.json()
+)
+
+.then(
+datos => {
+
+    capaPaises =
+        L.geoJSON(
+            datos,
+            {
+
+                style:{
+
+                    color:"#777",
+
+                    weight:1,
+
+                    fillColor:"#ffffff",
+
+                    fillOpacity:.85
+
+                },
+
+
+                onEachFeature:
+                function(feature,layer){
+
+                    layer.nombrePais =
+                        obtenerNombre(feature);
+
+
+                    layer.on(
+                        "click",
+                        function(){
+
+                            seleccionarPais(layer);
+
+                        }
+                    );
+
+
+                    layer.on(
+                        "mouseover",
+                        function(){
+
+                            if(!esperando)
+                                return;
+
+                            layer.setStyle({
+
+                                weight:2,
+
+                                color:"#444"
+
+                            });
+
+                        }
+                    );
+
+
+                    layer.on(
+                        "mouseout",
+                        function(){
+
+                            if(!esperando)
+                                return;
+
+                            layer.setStyle({
+
+                                weight:1,
+
+                                color:"#777"
+
+                            });
+
+                        }
+                    );
+
+                }
+
+            }
+        )
+        .addTo(mapa);
+
+}
+
+)
+
+.catch(
+error => {
+
+    console.error(error);
 
     document.getElementById(
-        "finRonda"
-    ).style.display = "none";
+        "objetivo"
+    ).textContent =
+        "⚠️ No se pudo cargar el mapa";
+
+}
+);
 
 
-    document.getElementById(
-        "preguntaCapital"
-    ).style.display = "block";
 
+/* =====================================================
+   NOMBRE
+===================================================== */
 
-    document.querySelector(
-        ".opciones"
-    ).style.display = "flex";
+function obtenerNombre(feature){
 
+    const p =
+        feature.properties || {};
 
-    document.getElementById(
-        "btnSiguiente"
-    ).style.display = "block";
+    return (
 
+        p.ADMIN ||
 
-    document.getElementById(
-        "numeroPregunta"
-    ).style.display = "block";
+        p.NAME ||
 
+        p.NAME_LONG ||
 
-    /*
-       Reiniciar estadísticas.
-    */
+        p.name ||
 
-    aciertosCapital = 0;
+        ""
 
-    erroresCapital = 0;
-
-    erroresCapitalDetalle = [];
-
-
-    /*
-       Crear una copia de todos los países.
-    */
-
-    paisesPendientes =
-        paises.slice();
-
-
-    /*
-       Mezclar los países.
-    */
-
-    mezclarArray(
-        paisesPendientes
     );
-
-
-    /*
-       Reiniciar número de pregunta.
-    */
-
-    numeroPreguntaCapital = 0;
-
-
-    /*
-       Actualizar estadísticas.
-    */
-
-    document.getElementById(
-        "aciertosCapital"
-    ).textContent = "0";
-
-
-    document.getElementById(
-        "erroresCapital"
-    ).textContent = "0";
-
-
-    document.getElementById(
-        "erroresDetalle"
-    ).innerHTML = "";
-
-
-    /*
-       Comenzar primera pregunta.
-    */
-
-    siguienteCapital();
 
 }
 
 
+
 /* =====================================================
-   MEZCLAR ARRAY
+   NORMALIZAR
 ===================================================== */
 
-function mezclarArray(array) {
+function normalizar(texto){
+
+    return String(texto)
+
+        .normalize("NFD")
+
+        .replace(
+            /[\u0300-\u036f]/g,
+            ""
+        )
+
+        .toLowerCase()
+
+        .replace(
+            /[^a-z0-9]/g,
+            ""
+        );
+
+}
 
 
-    for (
-        let i = array.length - 1;
-        i > 0;
+
+/* =====================================================
+   COMPARAR PAÍSES
+===================================================== */
+
+function esMismoPais(
+    nombreMapa,
+    nombreObjetivo
+){
+
+    const a =
+        normalizar(nombreMapa);
+
+    const b =
+        normalizar(nombreObjetivo);
+
+
+    if(a===b)
+        return true;
+
+
+    const equivalencias={
+
+        "unitedstates":
+        "estadosunidos",
+
+        "unitedstatesofamerica":
+        "estadosunidos",
+
+        "russianfederation":
+        "rusia",
+
+        "russia":
+        "rusia",
+
+        "czechia":
+        "republicacheca",
+
+        "czechrepublic":
+        "republicacheca",
+
+        "unitedkingdom":
+        "reinounido",
+
+        "southkorea":
+        "coreadelsur",
+
+        "republicofkorea":
+        "coreadelsur",
+
+        "northkorea":
+        "coreadelnorte",
+
+        "democraticpeoplesrepublicofkorea":
+        "coreadelnorte",
+
+        "turkey":
+        "turquia",
+
+        "timorleste":
+        "timororiental",
+
+        "swaziland":
+        "esuatini",
+
+        "capeverde":
+        "caboverde",
+
+        "ivorycoast":
+        "costademarfil",
+
+        "cotedivoire":
+        "costademarfil",
+
+        "democraticrepublicofthecongo":
+        "republicademocraticadelcongo",
+
+        "republicofthecongo":
+        "republicadelcongo",
+
+        "centralafricanrepublic":
+        "republicacentroafricana",
+
+        "equatorialguinea":
+        "guineaecuatorial",
+
+        "southsudan":
+        "sudandelsur",
+
+        "marshallislands":
+        "islasmarshall",
+
+        "solomonislands":
+        "islassalomon"
+
+    };
+
+
+    return (
+
+        equivalencias[a]===b ||
+
+        equivalencias[b]===a
+
+    );
+
+}
+
+
+
+/* =====================================================
+   BARAJAR
+===================================================== */
+
+function barajar(array){
+
+    const copia =
+        [...array];
+
+
+    for(
+        let i=copia.length-1;
+        i>0;
         i--
-    ) {
+    ){
 
         const j =
             Math.floor(
-                Math.random() * (i + 1)
+                Math.random()*(i+1)
             );
 
 
-        const temporal =
-            array[i];
-
-
-        array[i] =
-            array[j];
-
-
-        array[j] =
-            temporal;
+        [
+            copia[i],
+            copia[j]
+        ]=
+        [
+            copia[j],
+            copia[i]
+        ];
 
     }
+
+
+    return copia;
 
 }
 
 
+
 /* =====================================================
-   SIGUIENTE PREGUNTA
+   CENTRAR MAPA SEGÚN CONTINENTE
 ===================================================== */
 
-function siguienteCapital() {
+function centrarContinente(
+    continente
+){
+
+    const vista =
+        vistasContinentes[
+            continente
+        ];
 
 
-    /*
-       Si no quedan países,
-       termina la ronda.
-    */
+    if(!vista)
+        return;
 
-    if (
-        paisesPendientes.length === 0
-    ) {
 
-        terminarRondaCapitales();
+    mapa.flyTo(
+
+        vista.centro,
+
+        vista.zoom,
+
+        {
+            animate:true,
+            duration:1
+        }
+
+    );
+
+}
+
+
+
+/* =====================================================
+   MOSTRAR CONFIGURACIÓN
+===================================================== */
+
+function mostrarConfiguracion(){
+
+    esperando=false;
+
+
+    document.getElementById(
+        "configuracion"
+    ).style.display="block";
+
+
+    document.getElementById(
+        "panelJuego"
+    ).style.display="none";
+
+
+    document.getElementById(
+        "resultado"
+    ).style.display="none";
+
+}
+
+
+
+/* =====================================================
+   COMENZAR PARTIDA
+===================================================== */
+
+function comenzarPartida(){
+
+    if(!capaPaises){
+
+        alert(
+            "El mapa todavía está cargando."
+        );
 
         return;
 
     }
 
 
-    /*
-       Reiniciar estado de respuesta.
-    */
-
-    capitalesRespondida = false;
-
-
-    /*
-       Limpiar resultado.
-    */
-
-    document.getElementById(
-        "resultadoCapital"
-    ).innerHTML = "";
+    const continente =
+        document.getElementById(
+            "selectorContinente"
+        ).value;
 
 
-    /*
-       Habilitar botones.
-    */
-
-    const botones =
-        document.querySelectorAll(
-            ".opciones button"
-        );
+    const cantidad =
+        document.getElementById(
+            "selectorCantidad"
+        ).value;
 
 
-    botones.forEach(
-        function(boton) {
+    let disponibles;
 
-            boton.disabled = false;
 
-            boton.classList.remove(
-                "correcta"
+    if(
+        continente==="Todos"
+    ){
+
+        disponibles =
+            [...paises];
+
+    }else{
+
+        disponibles =
+            paises.filter(
+                pais =>
+                    pais[1]===continente
             );
 
-            boton.classList.remove(
-                "incorrecta"
+    }
+
+
+    /*
+      Mezclamos antes de seleccionar
+      las preguntas.
+    */
+
+    disponibles =
+        barajar(disponibles);
+
+
+    if(cantidad==="todos"){
+
+        partida =
+            disponibles;
+
+    }else{
+
+        const numero =
+            parseInt(cantidad);
+
+
+        partida =
+            disponibles.slice(
+                0,
+                Math.min(
+                    numero,
+                    disponibles.length
+                )
             );
+
+    }
+
+
+    indice=0;
+
+    aciertos=0;
+
+    errores=0;
+
+    erroresDetalle=[];
+
+    esperando=true;
+
+
+    /*
+      Restaurar colores.
+    */
+
+    capaPaises.eachLayer(
+        layer => {
+
+            layer.setStyle({
+
+                color:"#777",
+
+                weight:1,
+
+                fillColor:"#ffffff",
+
+                fillOpacity:.85
+
+            });
+
+            layer.closeTooltip();
 
         }
     );
 
 
     /*
-       Tomar el primer país
-       y eliminarlo de la lista.
-
-       De esta manera un país
-       nunca se repite dentro
-       de la misma ronda.
+      Ocultar configuración.
     */
 
-    capitalActual =
-        paisesPendientes.shift();
-
-
-    /*
-       Aumentar número de pregunta.
-    */
-
-    numeroPreguntaCapital++;
+    document.getElementById(
+        "configuracion"
+    ).style.display="none";
 
 
     document.getElementById(
-        "numeroPregunta"
+        "panelJuego"
+    ).style.display="block";
+
+
+    /*
+      Centrar el mapa según el continente.
+    */
+
+    centrarContinente(
+        continente
+    );
+
+
+    actualizarMarcadores();
+
+    mostrarPregunta();
+
+}
+
+
+
+/* =====================================================
+   MOSTRAR PREGUNTA
+===================================================== */
+
+function mostrarPregunta(){
+
+    if(
+        indice>=partida.length
+    ){
+
+        terminarPartida();
+
+        return;
+
+    }
+
+
+    const pais =
+        partida[indice][0];
+
+
+    const continente =
+        partida[indice][1];
+
+
+    document.getElementById(
+        "objetivo"
     ).textContent =
+        "🎯 Encontrá: " + pais;
 
-        "Pregunta " +
-        numeroPreguntaCapital +
-        " de 12";
+
+    document.getElementById(
+        "continente"
+    ).textContent =
+        "Continente: " + continente;
+
+
+    document.getElementById(
+        "numero"
+    ).textContent =
+        indice+1;
+
+
+    esperando=true;
+
+}
+
+
+
+/* =====================================================
+   SELECCIONAR PAÍS
+===================================================== */
+
+function seleccionarPais(layer){
+
+    if(!esperando)
+        return;
+
+
+    const paisObjetivo =
+        partida[indice][0];
+
+
+    const continente =
+        partida[indice][1];
+
+
+    const paisElegido =
+        layer.nombrePais ||
+        "Desconocido";
+
+
+    const correcto =
+        esMismoPais(
+            paisElegido,
+            paisObjetivo
+        );
 
 
     /*
-       Crear respuesta correcta.
+      Siempre se pinta gris.
     */
 
-    let respuestas = [
+    layer.setStyle({
 
-        capitalActual.capital
+        fillColor:"#999999",
 
-    ];
+        fillOpacity:.95,
+
+        color:"#444",
+
+        weight:2
+
+    });
 
 
-    /*
-       Obtener países candidatos
-       para respuestas incorrectas.
-    */
+    esperando=false;
 
-    let candidatos =
-        paises.filter(
-            function(pais) {
 
-                return (
-                    pais.nombre !==
-                    capitalActual.nombre
-                );
+    if(correcto){
+
+        aciertos++;
+
+
+        layer.bindTooltip(
+            "✅ ¡Correcto!",
+            {
+                permanent:false
+            }
+        ).openTooltip();
+
+
+    }else{
+
+        errores++;
+
+
+        erroresDetalle.push({
+
+            objetivo:paisObjetivo,
+
+            elegido:paisElegido,
+
+            continente:continente
+
+        });
+
+
+        layer.bindTooltip(
+            "❌ Incorrecto",
+            {
+                permanent:false
+            }
+        ).openTooltip();
+
+    }
+
+
+    actualizarMarcadores();
+
+
+    setTimeout(
+        function(){
+
+            indice++;
+
+            mostrarPregunta();
+
+            actualizarMarcadores();
+
+        },
+        700
+    );
+
+}
+
+
+
+/* =====================================================
+   MARCADORES
+===================================================== */
+
+function actualizarMarcadores(){
+
+    document.getElementById(
+        "numero"
+    ).textContent =
+        Math.min(
+            indice+1,
+            partida.length
+        );
+
+
+    document.getElementById(
+        "aciertos"
+    ).textContent =
+        aciertos;
+
+
+    document.getElementById(
+        "errores"
+    ).textContent =
+        errores;
+
+}
+
+
+
+/* =====================================================
+   FINAL
+===================================================== */
+
+function terminarPartida(){
+
+    esperando=false;
+
+
+    const total =
+        partida.length;
+
+
+    const porcentaje =
+        total>0
+        ? Math.round(
+            aciertos/total*100
+          )
+        : 0;
+
+
+    document.getElementById(
+        "resumen"
+    ).innerHTML =
+
+        "<p>" +
+
+        "<b>" +
+        aciertos +
+        "</b> aciertos de " +
+        total +
+
+        "</p>" +
+
+        "<p>🎯 Precisión: <b>" +
+
+        porcentaje +
+
+        "%</b></p>" +
+
+        "<p>❌ Errores: <b>" +
+
+        errores +
+
+        "</b></p>";
+
+
+    const detalle =
+        document.getElementById(
+            "detalle"
+        );
+
+
+    if(errores===0){
+
+        detalle.innerHTML =
+
+            "<p class='correcto'>" +
+
+            "🎉 ¡Excelente!<br>" +
+
+            "No cometiste ningún error." +
+
+            "</p>";
+
+    }else{
+
+        let html =
+
+            "<h3>" +
+
+            "Países en los que te equivocaste" +
+
+            "</h3>";
+
+
+        erroresDetalle.forEach(
+            function(error,i){
+
+                html +=
+
+                "<div class='error'>" +
+
+                "<b>" +
+
+                (i+1) +
+
+                ". " +
+
+                error.objetivo +
+
+                "</b><br>" +
+
+                "Continente: " +
+
+                error.continente +
+
+                "<br>" +
+
+                "Elegiste: " +
+
+                "<span class='incorrecto'>" +
+
+                error.elegido +
+
+                "</span>" +
+
+                "</div>";
 
             }
         );
 
 
-    /*
-       Mezclar candidatos.
-    */
-
-    mezclarArray(
-        candidatos
-    );
-
-
-    /*
-       Agregar dos respuestas incorrectas.
-    */
-
-    respuestas.push(
-        candidatos[0].capital
-    );
-
-    respuestas.push(
-        candidatos[1].capital
-    );
-
-
-    /*
-       Mezclar las tres respuestas.
-    */
-
-    mezclarArray(
-        respuestas
-    );
-
-
-    /*
-       Guardar opciones.
-    */
-
-    opcionesCapitales =
-        respuestas;
-
-
-    /*
-       Encontrar posición
-       de la respuesta correcta.
-    */
-
-    respuestaCorrectaCapital =
-        respuestas.indexOf(
-            capitalActual.capital
-        );
-
-
-    /*
-       Mostrar pregunta.
-    */
-
-    document.getElementById(
-        "preguntaCapital"
-    ).innerHTML =
-
-        "🏛️ ¿Cuál es la capital de " +
-
-        "<strong>" +
-
-        capitalActual.nombre +
-
-        "</strong>?";
-
-
-    /*
-       Mostrar las tres opciones.
-    */
-
-    for (
-        let i = 0;
-        i < 3;
-        i++
-    ) {
-
-        document.getElementById(
-            "opcion" + i
-        ).textContent =
-            respuestas[i];
-
-    }
-
-}
-
-
-/* =====================================================
-   RESPONDER
-===================================================== */
-
-function responderCapital(indice) {
-
-
-    /*
-       Evitar que se pueda responder
-       más de una vez.
-    */
-
-    if (
-        capitalesRespondida
-    ) {
-
-        return;
+        detalle.innerHTML =
+            html;
 
     }
 
 
-    capitalesRespondida = true;
-
-
-    const botones =
-        document.querySelectorAll(
-            ".opciones button"
-        );
-
-
-    /*
-       Deshabilitar todos
-       los botones.
-    */
-
-    botones.forEach(
-        function(boton) {
-
-            boton.disabled = true;
-
-        }
-    );
-
-
-    /*
-       RESPUESTA CORRECTA
-    */
-
-    if (
-        indice ===
-        respuestaCorrectaCapital
-    ) {
-
-
-        aciertosCapital++;
-
-
-        document.getElementById(
-            "aciertosCapital"
-        ).textContent =
-            aciertosCapital;
-
-
-        botones[indice]
-            .classList.add(
-                "correcta"
-            );
-
-
-        document.getElementById(
-            "resultadoCapital"
-        ).innerHTML =
-            "✅ ¡Correcto!";
-
-    }
-
-
-    /*
-       RESPUESTA INCORRECTA
-    */
-
-    else {
-
-
-        erroresCapital++;
-
-
-        document.getElementById(
-            "erroresCapital"
-        ).textContent =
-            erroresCapital;
-
-
-        /*
-           Marcar respuesta elegida
-           como incorrecta.
-        */
-
-        botones[indice]
-            .classList.add(
-                "incorrecta"
-            );
-
-
-        /*
-           Marcar respuesta correcta.
-        */
-
-        botones[
-            respuestaCorrectaCapital
-        ]
-            .classList.add(
-                "correcta"
-            );
-
-
-        /*
-           Guardar error.
-        */
-
-        erroresCapitalDetalle.push({
-
-            pais:
-                capitalActual.nombre,
-
-            elegida:
-                opcionesCapitales[indice],
-
-            correcta:
-                capitalActual.capital
-
-        });
-
-
-        /*
-           Mostrar explicación.
-        */
-
-        document.getElementById(
-            "resultadoCapital"
-        ).innerHTML =
-
-            "❌ Incorrecto. " +
-
-            "La capital es " +
-
-            "<strong>" +
-
-            capitalActual.capital +
-
-            "</strong>";
-
-
-        /*
-           Actualizar lista
-           de errores.
-        */
-
-        actualizarErroresCapital();
-
-    }
+    document.getElementById(
+        "resultado"
+    ).style.display="flex";
 
 }
-
-
-/* =====================================================
-   MOSTRAR ERRORES
-===================================================== */
-
-function actualizarErroresCapital() {
-
-
-    const contenedor =
-        document.getElementById(
-            "erroresDetalle"
-        );
-
-
-    contenedor.innerHTML =
-        "<h3>Capitales que fallaste</h3>";
-
-
-    erroresCapitalDetalle.forEach(
-        function(error) {
-
-
-            const div =
-                document.createElement(
-                    "div"
-                );
-
-
-            div.className =
-                "errorItem";
-
-
-            div.innerHTML =
-
-                "<strong>" +
-                error.pais +
-                "</strong><br>" +
-
-                "Elegiste: " +
-                error.elegida +
-                "<br>" +
-
-                "Correcta: " +
-                error.correcta;
-
-
-            contenedor.appendChild(
-                div
-            );
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   FINAL DE RONDA
-===================================================== */
-
-function terminarRondaCapitales() {
-
-
-    /*
-       Ocultar juego.
-    */
-
-    document.getElementById(
-        "preguntaCapital"
-    ).style.display = "none";
-
-
-    document.querySelector(
-        ".opciones"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "btnSiguiente"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "numeroPregunta"
-    ).style.display = "none";
-
-
-    /*
-       Mostrar resultado final.
-    */
-
-    document.getElementById(
-        "finRonda"
-    ).style.display = "block";
-
-
-    /*
-       Calcular porcentaje.
-    */
-
-    const porcentaje =
-
-        Math.round(
-            (
-                aciertosCapital / 12
-            ) * 100
-        );
-
-
-    /*
-       Mostrar resultado.
-    */
-
-    document.getElementById(
-        "resultadoFinal"
-    ).innerHTML =
-
-        "🏆 Resultado: " +
-
-        "<strong>" +
-
-        aciertosCapital +
-
-        "/12</strong><br>" +
-
-        "Porcentaje: " +
-
-        "<strong>" +
-
-        porcentaje +
-
-        "%</strong><br><br>" +
-
-        "❌ Errores: " +
-
-        "<strong>" +
-
-        erroresCapital +
-
-        "</strong>";
-
-}
-
-
-/* =====================================================
-   INICIO
-===================================================== */
-
-window.onload = function() {
-
-    nuevaRondaCapitales();
-
-};
 
 </script>
 
