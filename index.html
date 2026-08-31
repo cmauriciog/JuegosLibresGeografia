@@ -1482,49 +1482,29 @@ function iniciarCapitales() {
 
 }
 
+
 function comenzarCapitales() {
 
-    const seleccion =
-    document.getElementById("seleccionContinente");
-
-const juego =
-    document.getElementById("juegoCapitales");
-
-if (seleccion) {
-    seleccion.style.display = "none";
-}
-
-if (juego) {
-    juego.style.display = "block";
-}
-document.getElementById("numeroPregunta").style.display = "block";
-document.getElementById("preguntaCapital").style.display = "block";
-
-document.querySelector(
-    "#juegoCapitales .opciones"
-).style.display = "flex";
-
-document.getElementById("btnSiguiente").style.display = "block";
-document.getElementById("finRonda").style.display = "none";
+    const selectorContinente =
+        document.getElementById("selectorContinenteCapitales");
 
     const selectorCantidad =
-        document.getElementById(
-            "selectorCantidadCapitales"
-        );
+        document.getElementById("selectorCantidadCapitales");
 
 
-    if (!selectorContinente || !selectorCantidad) {
+    if (!selectorContinente) {
+        console.error("No existe selectorContinenteCapitales");
+        return;
+    }
 
-        console.error(
-            "No se encontraron los selectores de Capitales."
-        );
-
+    if (!selectorCantidad) {
+        console.error("No existe selectorCantidadCapitales");
         return;
     }
 
 
     const continente =
-        selectorContinente.value;
+        selectorContinente.value.trim();
 
     const cantidad =
         selectorCantidad.value;
@@ -1537,23 +1517,20 @@ document.getElementById("finRonda").style.display = "none";
     );
 
 
-    /*
-     * Guardar estado del juego
-     */
+    // =====================================================
+    // ACTIVAR JUEGO
+    // =====================================================
+
+    juegoActivo = "capitales";
+    partidaActiva = true;
 
     continenteSeleccionado =
         continente;
 
-    juegoActivo =
-        "capitales";
 
-    partidaActiva =
-        true;
-
-
-    /*
-     * Obtener países disponibles
-     */
+    // =====================================================
+    // OBTENER PAÍSES DISPONIBLES
+    // =====================================================
 
     let disponibles;
 
@@ -1563,71 +1540,64 @@ document.getElementById("finRonda").style.display = "none";
         disponibles =
             basePaises.slice();
 
-    }
-
-    else {
+    } else {
 
         disponibles =
-            basePaises.filter(
-                function(pais) {
+            basePaises.filter(function(pais) {
 
-                    return (
-                        pais.continente ===
-                        continente
-                    );
+                return (
+                    String(pais.continente).trim() ===
+                    continente
+                );
 
-                }
-            );
+            });
 
     }
 
 
-    /*
-     * Verificar
-     */
+    console.log(
+        "Países disponibles:",
+        disponibles.length,
+        disponibles
+    );
+
+
+    // =====================================================
+    // VERIFICAR
+    // =====================================================
 
     if (disponibles.length === 0) {
-
-        console.error(
-            "No hay países para:",
-            continente
-        );
-
-        partidaActiva = false;
 
         alert(
             "No hay países disponibles para esta selección."
         );
 
+        partidaActiva = false;
+
         return;
     }
 
 
-    /*
-     * Mezclar
-     */
+    // =====================================================
+    // MEZCLAR
+    // =====================================================
 
-    mezclarArray(
-        disponibles
-    );
+    mezclarArray(disponibles);
 
 
-    /*
-     * Cantidad de preguntas
-     */
+    // =====================================================
+    // CANTIDAD DE PREGUNTAS
+    // =====================================================
 
     if (cantidad === "todos") {
 
         paisesPendientes =
             disponibles.slice();
 
-    }
-
-    else {
+    } else {
 
         const numero =
-            parseInt(cantidad);
-
+            parseInt(cantidad, 10);
 
         paisesPendientes =
             disponibles.slice(
@@ -1641,24 +1611,18 @@ document.getElementById("finRonda").style.display = "none";
     }
 
 
-    /*
-     * Reiniciar estadísticas
-     */
+    // =====================================================
+    // REINICIAR ESTADÍSTICAS
+    // =====================================================
 
     aciertosCapital = 0;
-
     erroresCapital = 0;
-
     erroresCapitalDetalle = [];
 
     numeroPreguntaCapital = 0;
 
     capitalesRespondida = false;
 
-
-    /*
-     * Actualizar estadísticas
-     */
 
     document.getElementById(
         "aciertosCapital"
@@ -1675,18 +1639,18 @@ document.getElementById("finRonda").style.display = "none";
     ).innerHTML = "";
 
 
-    /*
-     * Ocultar configuración
-     */
+    // =====================================================
+    // OCULTAR CONFIGURACIÓN
+    // =====================================================
 
     document.getElementById(
         "seleccionContinente"
     ).style.display = "none";
 
 
-    /*
-     * Mostrar juego
-     */
+    // =====================================================
+    // MOSTRAR JUEGO
+    // =====================================================
 
     document.getElementById(
         "numeroPregunta"
@@ -1713,16 +1677,16 @@ document.getElementById("finRonda").style.display = "none";
     ).style.display = "none";
 
 
-    /*
-     * Iniciar cronómetro
-     */
+    // =====================================================
+    // INICIAR CRONÓMETRO
+    // =====================================================
 
     iniciarCronometro();
 
 
-    /*
-     * Primera pregunta
-     */
+    // =====================================================
+    // PRIMERA PREGUNTA
+    // =====================================================
 
     siguienteCapital();
 
@@ -3228,7 +3192,62 @@ document.getElementById(
 "resultado"
 ).style.display="flex";
 }
+function aplicarRestriccionVersion() {
+
+    const selector = document.getElementById("selectorContinente");
+	const selectorcapitales = document.getElementById("selectorContinenteCapitales");
+
+    if (!selector) return;
+
+    const esPro = window.dqcEsPro === true;
+
+
+    if (!esPro) {
+
+        // ==========================
+        // VERSIÓN LIBRE
+        // ==========================
+
+        selector.value = "América del Sur";
+		selectorcapitales.value = "Sudamérica";
+
+        Array.from(selector.options).forEach(option => {
+            if (option.value === "América del Sur") {
+                option.hidden = false;
+                option.disabled = false;
+            } else {
+                option.hidden = true;
+                option.disabled = true;
+            }
+        });
+		Array.from(selectorcapitales.options).forEach(option => {
+            if (option.value === "Sudamérica") {
+                option.hidden = false;
+                option.disabled = false;
+            } else {
+                option.hidden = true;
+                option.disabled = true;
+            }
+        });
+
+    } else {
+        // ==========================
+        // VERSIÓN PRO
+        // ==========================
+        Array.from(selector.options).forEach(option => {
+            option.hidden = false;
+            option.disabled = false;
+        });
+		Array.from(selectorcapitales.options).forEach(option => {
+            option.hidden = false;
+            option.disabled = false;
+        });
+    }
+}
 volverMenu();
+document.addEventListener("DOMContentLoaded", function () {
+    aplicarRestriccionVersion();
+});
 </script>
 </body>
 </html>
