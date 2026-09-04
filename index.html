@@ -3199,7 +3199,10 @@ function aplicarRestriccionVersion() {
 
     if (!selector) return;
 
-    const esPro = window.dqcEsPro === true;
+    //const esPro = window.dqcEsPro === true;
+	const esPro = window.dqcEsPro === undefined
+    ? true
+    : window.dqcEsPro === true;
 
 
     if (!esPro) {
