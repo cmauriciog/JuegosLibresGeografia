@@ -348,7 +348,6 @@ select {
 ===================================================== */
 
 @media (max-width: 600px) {
-
     header h1 {
         font-size: 21px;
     }
@@ -368,8 +367,73 @@ select {
 
 }
 
-@media (orientation: landscape) {
+/* =====================================================
+   MODAL DE BIENVENIDA
+===================================================== */
 
+#modalBienvenida {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+}
+
+#modalBienvenidaCaja {
+    width: min(420px, 100%);
+
+    background: #FFC477;
+
+    border-radius: 18px;
+
+    padding: 30px 25px;
+
+    text-align: center;
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+#modalBienvenidaCaja h2 {
+    margin: 10px 0 25px;
+
+    font-size: 28px;
+
+    color: #333;
+}
+
+.bienvenidaIcono {
+    font-size: 50px;
+}
+
+#modalBienvenidaCaja button {
+    min-width: 130px;
+
+    background: #E66F00;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 10px;
+
+    padding: 12px 25px;
+
+    font-size: 17px;
+
+    cursor: pointer;
+}
+
+#modalBienvenidaCaja button:hover {
+    background: #CC6200;
+}
+
+@media (orientation: landscape) {
     #map {
         height: 72vh;
     }
@@ -377,10 +441,24 @@ select {
 }
 
 </style>
-	<!--Icono para la pestaña del navegador-->
-	<link rel="shortcut icon" href="./planisferio.ico" type="image/x-icon"/>
+<!--Icono para la pestaña del navegador-->
+<link rel="shortcut icon" href="./planisferio.ico" type="image/x-icon"/>
 </head>
 <body>
+	<!-- =====================================================
+		 MODAL DE BIENVENIDA - SOLO DESDE LA APP
+	===================================================== -->
+	<div id="modalBienvenida">
+		<div id="modalBienvenidaCaja">
+			<div class="bienvenidaIcono">🌎</div>
+
+			<h2>Hola, bienvenido</h2>
+
+			<button onclick="cerrarBienvenida()">
+				Cerrar
+			</button>
+		</div>
+	</div>
 <header>
 <h1>🌎 Juego de Geografía</h1>
 </header>
@@ -396,590 +474,300 @@ select {
      CRONOMETRO
 ===================================================== -->
 
-<div id="cronometro">
-
-⏱️ Tiempo:
-<span id="tiempo">
-2:00
-</span>
-
+<div id="cronometro">⏱️ Tiempo:
+	<span id="tiempo">2:00</span>
 </div>
-
 
 <!-- =====================================================
      CONFIGURACION DEL JUEGO DE PAISES
 ===================================================== -->
 
 <div id="configuracion">
-
-<h2>🎮 Configurá la partida</h2>
-
-<div>
-
-<label>Continente:</label>
-
-<select id="selectorContinente">
-
-<option value="Todos">
-🌎 Todos
-</option>
-
-<option value="América del Norte">
-🌎 América del Norte
-</option>
-
-<option value="América Central">
-🌴 América Central
-</option>
-
-<option value="Caribe">
-🏝️ Caribe
-</option>
-
-<option value="América del Sur">
-🌎 América del Sur
-</option>
-
-<option value="Europa">
-🇪🇺 Europa
-</option>
-
-<option value="África">
-🌍 África
-</option>
-
-<option value="Asia">
-🌏 Asia
-</option>
-
-<option value="Oceanía">
-🦘 Oceanía
-</option>
-
-</select>
-
+	<h2>🎮 Configurá la partida</h2>
+	<div>
+		<label>Continente:</label>
+		<select id="selectorContinente">
+			<option value="Todos">
+				🌎 Todos
+			</option>
+			<option value="América del Norte">
+				🌎 América del Norte
+			</option>
+			<option value="América Central">
+				🌴 América Central
+			</option>
+			<option value="Caribe">
+				🏝️ Caribe
+			</option>
+			<option value="América del Sur">
+				🌎 América del Sur
+			</option>
+			<option value="Europa">
+				🇪🇺 Europa
+			</option>
+			<option value="África">
+				🌍 África
+			</option>
+			<option value="Asia">
+				🌏 Asia
+			</option>
+			<option value="Oceanía">
+				🦘 Oceanía
+			</option>
+		</select>
+	</div>
+	<div>
+	<label>Preguntas:</label>
+	<select id="selectorCantidad">
+		<option value="10">
+			10
+		</option>
+		<option value="20">
+			20
+		</option>
+		<option value="50">
+			50
+		</option>
+		<option value="todos">
+			Todos
+		</option>
+	</select>
+	</div>
+	<br>
+	<button onclick="comenzarPartida()">▶️ Comenzar partida</button>
+	<br>
+	<button class="botonVolver" onclick="volverMenu()">⬅️ Elegir otro juego</button>
 </div>
-
-
-<div>
-
-<label>Preguntas:</label>
-
-<select id="selectorCantidad">
-
-<option value="10">
-10
-</option>
-
-<option value="20">
-20
-</option>
-
-<option value="50">
-50
-</option>
-
-<option value="todos">
-Todos
-</option>
-
-</select>
-
-</div>
-
-
-<br>
-
-
-<button onclick="comenzarPartida()">
-▶️ Comenzar partida
-</button>
-
-
-<br>
-
-
-<button
-class="botonVolver"
-onclick="volverMenu()">
-
-⬅️ Elegir otro juego
-
-</button>
-
-</div>
-
 
 <!-- =====================================================
      PANEL DEL JUEGO DE PAISES
 ===================================================== -->
-
 <div id="panelJuego">
-
-<div id="objetivo">
-Encontrá el país
+	<div id="objetivo">
+		Encontrá el país
+	</div>
+	<div id="continente"></div>
+	<div id="marcadores">
+		<span>🌎 Pregunta:<b id="numero">0</b></span>
+		<span>✅ Aciertos:<b id="aciertos">0</b></span>
+		<span>❌ Errores:<b id="errores">0</b></span>
+	</div>
+	<button id="botonNueva" onclick="mostrarConfiguracion()">⚙️ Nueva partida</button>
 </div>
-
-<div id="continente"></div>
-
-
-<div id="marcadores">
-
-<span>
-🌎 Pregunta:
-<b id="numero">0</b>
-</span>
-
-<span>
-✅ Aciertos:
-<b id="aciertos">0</b>
-</span>
-
-<span>
-❌ Errores:
-<b id="errores">0</b>
-</span>
-
-</div>
-
-
-<button
-id="botonNueva"
-onclick="mostrarConfiguracion()">
-
-⚙️ Nueva partida
-
-</button>
-
-</div>
-
 
 <!-- =====================================================
      MAPA
 ===================================================== -->
-
 <div id="map"></div>
-
 
 <!-- =====================================================
      RESULTADO PAISES
 ===================================================== -->
-
 <div id="resultado">
-
-<div id="resultadoCaja">
-
-<h2>🏁 Partida terminada</h2>
-
-<div id="resumen"></div>
-
-<div id="detalle"></div>
-
-
-<button onclick="mostrarConfiguracion()">
-
-🎮 Jugar nuevamente
-
-</button>
-
-
-<br>
-
-
-<button
-class="botonVolver"
-onclick="volverMenu()">
-
-⬅️ Elegir otro juego
-
-</button>
-
+	<div id="resultadoCaja">
+		<h2>🏁 Partida terminada</h2>
+		<div id="resumen"></div>
+		<div id="detalle"></div>
+		<button onclick="mostrarConfiguracion()">🎮 Jugar nuevamente</button>
+		<br>
+		<button class="botonVolver" onclick="volverMenu()">⬅️ Elegir otro juego</button>
+	</div>
 </div>
-
-</div>
-
 
 <!-- =====================================================
      JUEGO CAPITALES
 ===================================================== -->
-
 <div id="juegoCapitales">
-
-<div id="capitales">
-
-
-<div id="seleccionContinente">
-
-<h2>🏛️ Capitales del mundo</h2>
-
-<div>
-
-<label>Continente:</label>
-
-<select id="selectorContinenteCapitales">
-
-    <option value="Mundo">
-        🌎 Todos
-    </option>
-
-    <option value="Norteamérica">
-        🌎 América del Norte
-    </option>
-
-    <option value="Centroamérica y Caribe">
-        🌴 América Central y Caribe
-    </option>
-
-    <option value="Sudamérica">
-        🌎 América del Sur
-    </option>
-
-    <option value="Europa">
-        🇪🇺 Europa
-    </option>
-
-    <option value="África">
-        🌍 África
-    </option>
-
-    <option value="Asia">
-        🌏 Asia
-    </option>
-
-    <option value="Oceanía">
-        🦘 Oceanía
-    </option>
-
-</select>
-
+	<div id="capitales">
+		<div id="seleccionContinente">
+			<h2>🏛️ Capitales del mundo</h2>
+			<div>
+				<label>Continente:</label>
+				<select id="selectorContinenteCapitales">
+					<option value="Mundo">
+						🌎 Todos
+					</option>
+					<option value="Norteamérica">
+						🌎 América del Norte
+					</option>
+					<option value="Centroamérica y Caribe">
+						🌴 América Central y Caribe
+					</option>
+					<option value="Sudamérica">
+						🌎 América del Sur
+					</option>
+					<option value="Europa">
+						🇪🇺 Europa
+					</option>
+					<option value="África">
+						🌍 África
+					</option>
+					<option value="Asia">
+						🌏 Asia
+					</option>
+					<option value="Oceanía">
+						🦘 Oceanía
+					</option>
+				</select>
+			</div>
+			<div>
+				<label>Preguntas:</label>
+				<select id="selectorCantidadCapitales">
+					<option value="10">
+						10
+					</option>
+					<option value="20">
+						20
+					</option>
+					<option value="50">
+						50
+					</option>
+					<option value="todos">
+						Todos
+					</option>
+				</select>
+			</div>
+			<br>
+			<button onclick="comenzarCapitales()">▶️ Comenzar partida</button>
+		</div>
+		<div id="numeroPregunta">Elegí un continente</div>
+		<div id="preguntaCapital">🏛️ ¿Cuál es la capital?</div>
+		<div class="opciones">
+			<button id="opcion0" onclick="responderCapital(0)"></button>
+			<button id="opcion1" onclick="responderCapital(1)"></button>
+			<button id="opcion2" onclick="responderCapital(2)"></button>
+		</div>
+		<div id="resultadoCapital"></div>
+		<button id="btnSiguiente" onclick="siguienteCapital()">Siguiente pregunta</button>
+		<div id="estadisticasCapital">✅ Aciertos:<strong id="aciertosCapital">0</strong>
+			&nbsp;&nbsp;&nbsp;
+			❌ Errores:
+			<strong id="erroresCapital">0</strong>
+		</div>
+		<div id="erroresDetalle"></div>
+		<div id="finRonda">
+			<h2>🎉 ¡Ronda terminada!</h2>
+			<div id="resultadoFinal"></div>
+			<button onclick="nuevaRondaCapitales()">🔄 Nueva ronda</button>
+			<br>
+			<button class="botonVolver" onclick="volverMenu()">⬅️ Elegir otro juego</button>
+		</div>
+		<br>
+		<button class="botonVolver" onclick="volverMenu()">⬅️ Elegir otro juego</button>
+	</div>
 </div>
-
-
-<div>
-
-<label>Preguntas:</label>
-
-<select id="selectorCantidadCapitales">
-
-    <option value="10">
-        10
-    </option>
-
-    <option value="20">
-        20
-    </option>
-
-    <option value="50">
-        50
-    </option>
-
-    <option value="todos">
-        Todos
-    </option>
-
-</select>
-
-</div>
-
-
-<br>
-
-
-<button onclick="comenzarCapitales()">
-
-▶️ Comenzar partida
-
-</button>
-
-</div>
-
-
-<div id="numeroPregunta">
-Elegí un continente
-</div>
-
-
-<div id="preguntaCapital">
-🏛️ ¿Cuál es la capital?
-</div>
-
-
-<div class="opciones">
-
-<button id="opcion0"
-onclick="responderCapital(0)">
-</button>
-
-<button id="opcion1"
-onclick="responderCapital(1)">
-</button>
-
-<button id="opcion2"
-onclick="responderCapital(2)">
-</button>
-
-</div>
-
-
-<div id="resultadoCapital"></div>
-
-
-<button id="btnSiguiente"
-onclick="siguienteCapital()">
-
-Siguiente pregunta
-
-</button>
-
-
-<div id="estadisticasCapital">
-
-✅ Aciertos:
-<strong id="aciertosCapital">0</strong>
-
-&nbsp;&nbsp;&nbsp;
-
-❌ Errores:
-<strong id="erroresCapital">0</strong>
-
-</div>
-
-
-<div id="erroresDetalle"></div>
-
-
-<div id="finRonda">
-
-<h2>🎉 ¡Ronda terminada!</h2>
-
-<div id="resultadoFinal"></div>
-
-<button onclick="nuevaRondaCapitales()">
-🔄 Nueva ronda
-</button>
-
-
-<br>
-
-
-<button
-class="botonVolver"
-onclick="volverMenu()">
-
-⬅️ Elegir otro juego
-
-</button>
-
-</div>
-
-
-<br>
-
-
-<button
-class="botonVolver"
-onclick="volverMenu()">
-
-⬅️ Elegir otro juego
-
-</button>
-
-
-</div>
-
-</div>
-
-
-<script
-src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-</script>
-
-
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+
+/* =====================================================
+   DETECTAR SELECTOR CONTINENTES O CAPITALES EN VERSION LIBRE
+===================================================== */
+document.getElementById("selectorContinente").addEventListener("click", function () {
+    if (isPro) {MostrarModal("Para jugar con la geografía mundial, necesitas comprar la versión Pro de la app.-")};
+});
+document.getElementById("selectorContinenteCapitales").addEventListener("click", function () {
+    if (isPro) {MostrarModal("Para jugar con la geografía mundial, necesitas comprar la versión Pro de la app.-")};
+});
+
+function MostrarModal(mensaje) {
+    const modal = document.getElementById("modalBienvenida");
+    const titulo = modal.querySelector("h2");
+    titulo.textContent = mensaje;
+    modal.style.display = "flex";
+}
 
 /* =====================================================
    CRONOMETRO GLOBAL
 ===================================================== */
-
 const DURACION_PARTIDA = 120;
-
 let tiempoRestante = DURACION_PARTIDA;
-
 let intervaloCronometro = null;
-
-
 let juegoActivo = null;
-
-
 /*
    Indica si hay una partida
    actualmente en ejecución.
 */
-
 let partidaActiva = false;
-
+let puntaje=0;
 
 /* =====================================================
    INICIAR CRONOMETRO
 ===================================================== */
-
 function iniciarCronometro() {
-
     detenerCronometro();
-
-
     tiempoRestante =
         DURACION_PARTIDA;
-
-
     actualizarCronometro();
-
-
-    document.getElementById(
-        "cronometro"
-    ).style.display = "block";
-
-
+    document.getElementById("cronometro").style.display = "block";
     intervaloCronometro =
         setInterval(
             function() {
-
                 tiempoRestante--;
-
-
                 actualizarCronometro();
-
-
                 if(
                     tiempoRestante <= 0
                 ){
-
                     tiempoRestante = 0;
-
                     actualizarCronometro();
-
                     detenerCronometro();
-
                     tiempoAgotado();
-
                 }
-
             },
             1000
         );
-
-}
-
+};
 
 /* =====================================================
    ACTUALIZAR CRONOMETRO
 ===================================================== */
-
 function actualizarCronometro() {
-
     const minutos =
-        Math.floor(
-            tiempoRestante / 60
-        );
-
-
+        Math.floor(tiempoRestante / 60);
     const segundos =
         tiempoRestante % 60;
-
-
-    document.getElementById(
-        "tiempo"
-    ).textContent =
-
-        minutos +
-        ":" +
-        String(segundos)
-            .padStart(2,"0");
-
+    document.getElementById("tiempo").textContent = minutos +":" +String(segundos).padStart(2,"0");
 }
-
 
 /* =====================================================
    DETENER CRONOMETRO
 ===================================================== */
-
 function detenerCronometro() {
-
-    if(
-        intervaloCronometro
-    ){
-
-        clearInterval(
-            intervaloCronometro
-        );
-
-        intervaloCronometro =
-            null;
-
+    if(intervaloCronometro){
+        clearInterval(intervaloCronometro);
+        intervaloCronometro = null;
     }
-
-}
-
+};
 
 /* =====================================================
    TIEMPO AGOTADO
 ===================================================== */
-
 function tiempoAgotado() {
-
     if(!partidaActiva)
         return;
-
-
     partidaActiva = false;
-
-
-    if(
-        juegoActivo === "mapa"
-    ){
-
+    if(juegoActivo === "mapa"){
         esperando = false;
-
         terminarPartida();
-
     }
-
-
-    else if(
-        juegoActivo === "capitales"
-    ){
-
+    else if(juegoActivo === "capitales"){
         capitalesRespondida = true;
-
         terminarRondaCapitales();
-
     }
-
-}
-
+};
 
 /* =====================================================
    OCULTAR CRONOMETRO
 ===================================================== */
 
 function ocultarCronometro() {
-
     detenerCronometro();
-
-
-    document.getElementById(
-        "cronometro"
-    ).style.display = "none";
-
-}
-
+    document.getElementById("cronometro").style.display = "none";
+};
 
 /* =====================================================
    BASE DE 195 PAÍSES
 ===================================================== */
-
 const paises = [
-
 ["Argentina","Buenos Aires","Sudamérica"],
 ["Bolivia","Sucre","Sudamérica"],
 ["Brasil","Brasilia","Sudamérica"],
@@ -992,11 +780,9 @@ const paises = [
 ["Surinam","Paramaribo","Sudamérica"],
 ["Uruguay","Montevideo","Sudamérica"],
 ["Venezuela","Caracas","Sudamérica"],
-
 ["Canadá","Ottawa","Norteamérica"],
 ["Estados Unidos","Washington D. C.","Norteamérica"],
 ["México","Ciudad de México","Norteamérica"],
-
 ["Antigua y Barbuda","Saint John's","Centroamérica y Caribe"],
 ["Bahamas","Nassau","Centroamérica y Caribe"],
 ["Barbados","Bridgetown","Centroamérica y Caribe"],
@@ -1017,7 +803,6 @@ const paises = [
 ["San Vicente y las Granadinas","Kingstown","Centroamérica y Caribe"],
 ["Santa Lucía","Castries","Centroamérica y Caribe"],
 ["Trinidad y Tobago","Puerto España","Centroamérica y Caribe"],
-
 ["Albania","Tirana","Europa"],
 ["Alemania","Berlín","Europa"],
 ["Andorra","Andorra la Vieja","Europa"],
@@ -1062,7 +847,6 @@ const paises = [
 ["Suiza","Berna","Europa"],
 ["Ucrania","Kyiv","Europa"],
 ["Vaticano","Ciudad del Vaticano","Europa"],
-
 ["Argelia","Argel","África"],
 ["Angola","Luanda","África"],
 ["Benín","Porto-Novo","África"],
@@ -1117,7 +901,6 @@ const paises = [
 ["Yibuti","Yibuti","África"],
 ["Zambia","Lusaka","África"],
 ["Zimbabue","Harare","África"],
-
 ["Afganistán","Kabul","Asia"],
 ["Arabia Saudita","Riad","Asia"],
 ["Armenia","Ereván","Asia"],
@@ -1166,7 +949,6 @@ const paises = [
 ["Uzbekistán","Taskent","Asia"],
 ["Vietnam","Hanói","Asia"],
 ["Yemen","Saná","Asia"],
-
 ["Australia","Canberra","Oceanía"],
 ["Fiyi","Suva","Oceanía"],
 ["Islas Marshall","Majuro","Oceanía"],
@@ -1181,137 +963,64 @@ const paises = [
 ["Tonga","Nukualofa","Oceanía"],
 ["Tuvalu","Funafuti","Oceanía"],
 ["Vanuatu","Port Vila","Oceanía"]
-
 ];
-
 
 /* =====================================================
    CONVERTIR DATOS
 ===================================================== */
+const basePaises = paises.map(function(p) {
+	return {
+	nombre: p[0],
+	capital: p[1],
+	continente: p[2]
 
-const basePaises =
-paises.map(function(p) {
-
-return {
-
-nombre: p[0],
-
-capital: p[1],
-
-continente: p[2]
-
-};
-
+	};
 });
-
 
 /* =====================================================
    VARIABLES CAPITALES
 ===================================================== */
-
 let paisesPendientes = [];
-
 let continenteSeleccionado = null;
-
 let capitalActual = null;
-
 let opcionesCapitales = [];
-
 let respuestaCorrectaCapital = -1;
-
 let aciertosCapital = 0;
-
 let erroresCapital = 0;
-
 let erroresCapitalDetalle = [];
-
 let capitalesRespondida = false;
-
 let numeroPreguntaCapital = 0;
-
 
 /* =====================================================
    VARIABLES MAPA
 ===================================================== */
-
 let mapa = null;
-
 let capaPaises = null;
-
 let paisActual = null;
-
 let aciertosMapa = 0;
-
 let erroresMapa = 0;
-
 let erroresMapaDetalle = [];
-
 let partida = [];
-
 let indice = 0;
-
 let aciertos = 0;
-
 let errores = 0;
-
 let erroresDetalle = [];
-
 let esperando = false;
-
 
 /* =====================================================
    VISTAS
 ===================================================== */
-
 const vistasContinentes = {
-
-"Todos":{
-centro:[20,0],
-zoom:2
-},
-
-"América del Norte":{
-centro:[45,-100],
-zoom:3
-},
-
-"América Central":{
-centro:[15,-85],
-zoom:5
-},
-
-"Caribe":{
-centro:[20,-75],
-zoom:5
-},
-
-"América del Sur":{
-centro:[-15,-60],
-zoom:3
-},
-
-"Europa":{
-centro:[50,15],
-zoom:4
-},
-
-"África":{
-centro:[5,20],
-zoom:3
-},
-
-"Asia":{
-centro:[35,90],
-zoom:3
-},
-
-"Oceanía":{
-centro:[-20,140],
-zoom:3
-}
-
+	"Todos":{centro:[20,0],zoom:2},
+	"América del Norte":{centro:[45,-100],zoom:3},
+	"América Central":{centro:[15,-85],zoom:5},
+	"Caribe":{centro:[20,-75],zoom:5},
+	"América del Sur":{centro:[-15,-60],zoom:3},
+	"Europa":{centro:[50,15],zoom:4},
+	"África":{centro:[5,20],zoom:3},
+	"Asia":{centro:[35,90],zoom:3},
+	"Oceanía":{centro:[-20,140],zoom:3}
 };
-
 
 /* =====================================================
    INICIAR JUEGO CAPITALES
@@ -1380,462 +1089,228 @@ function iniciarCapitales() {
 
 }*/
 function iniciarCapitales() {
-
-    console.log("Iniciando Capitales");
-
+    //console.log("Iniciando Capitales");
     juegoActivo = "capitales";
-
     partidaActiva = false;
-
     // Detener cronómetro si estaba funcionando
     if (typeof detenerCronometro === "function") {
         detenerCronometro();
     }
-
     if (typeof ocultarCronometro === "function") {
         ocultarCronometro();
     }
-
     // Ocultar juego de países
     const juegoMapa = document.getElementById("juegoMapa");
-
     if (juegoMapa) {
         juegoMapa.style.display = "none";
     }
-
     // Mostrar juego de capitales
     const juegoCapitales =
         document.getElementById("juegoCapitales");
-
     if (!juegoCapitales) {
-
         console.error(
             "ERROR: No existe #juegoCapitales en el HTML"
         );
-
         return;
     }
-
     juegoCapitales.style.display = "block";
-
-
     // Mostrar selector de continente
-    const seleccionContinente =
-        document.getElementById(
-            "seleccionContinente"
-        );
-
-    if (seleccionContinente) {
-        seleccionContinente.style.display = "block";
-    }
-
-
+    const seleccionContinente = document.getElementById("seleccionContinente");
+    if (seleccionContinente) {seleccionContinente.style.display = "block"};
     // Los siguientes elementos pueden no existir
     // dependiendo de la versión del HTML.
-
     const numeroPregunta =
         document.getElementById(
             "numeroPregunta"
         );
-
     if (numeroPregunta) {
         numeroPregunta.style.display = "none";
     }
-
-
     const preguntaCapital =
         document.getElementById(
             "preguntaCapital"
         );
-
     if (preguntaCapital) {
         preguntaCapital.style.display = "none";
     }
-
-
     const opciones =
         document.querySelector(
             "#juegoCapitales .opciones"
         );
-
     if (opciones) {
         opciones.style.display = "none";
     }
-
-
     const btnSiguiente =
         document.getElementById(
             "btnSiguiente"
         );
-
     if (btnSiguiente) {
         btnSiguiente.style.display = "none";
     }
-
-
     const finRonda =
         document.getElementById(
             "finRonda"
         );
-
     if (finRonda) {
         finRonda.style.display = "none";
     }
-
-}
-
+};
 
 function comenzarCapitales() {
-
-    const selectorContinente =
-        document.getElementById("selectorContinenteCapitales");
-
-    const selectorCantidad =
-        document.getElementById("selectorCantidadCapitales");
-
-
-    if (!selectorContinente) {
-        console.error("No existe selectorContinenteCapitales");
+    const selectorContinente = document.getElementById("selectorContinenteCapitales");
+    const selectorCantidad = document.getElementById("selectorCantidadCapitales");
+    if (!selectorContinente) {console.error("No existe selectorContinenteCapitales");
         return;
     }
-
-    if (!selectorCantidad) {
-        console.error("No existe selectorCantidadCapitales");
+    if (!selectorCantidad) {console.error("No existe selectorCantidadCapitales");
         return;
     }
-
-
-    const continente =
-        selectorContinente.value.trim();
-
-    const cantidad =
-        selectorCantidad.value;
-
-
-    console.log(
-        "Iniciando Capitales:",
-        continente,
-        cantidad
-    );
-
+    const continente = selectorContinente.value.trim();
+    const cantidad = selectorCantidad.value;
+    //console.log("Iniciando Capitales:",continente,cantidad);
 
     // =====================================================
     // ACTIVAR JUEGO
     // =====================================================
-
     juegoActivo = "capitales";
     partidaActiva = true;
-
-    continenteSeleccionado =
-        continente;
-
+    continenteSeleccionado = continente;
 
     // =====================================================
     // OBTENER PAÍSES DISPONIBLES
     // =====================================================
-
     let disponibles;
-
-
     if (continente === "Mundo") {
-
-        disponibles =
-            basePaises.slice();
-
+        disponibles = basePaises.slice();
     } else {
-
-        disponibles =
-            basePaises.filter(function(pais) {
-
+        disponibles = basePaises.filter(function(pais) {
                 return (
                     String(pais.continente).trim() ===
                     continente
                 );
-
             });
-
     }
-
-
-    console.log(
-        "Países disponibles:",
-        disponibles.length,
-        disponibles
-    );
-
+    //console.log("Países disponibles:",disponibles.length,disponibles);
 
     // =====================================================
     // VERIFICAR
     // =====================================================
-
     if (disponibles.length === 0) {
-
         alert(
             "No hay países disponibles para esta selección."
         );
-
         partidaActiva = false;
-
         return;
     }
-
 
     // =====================================================
     // MEZCLAR
     // =====================================================
-
     mezclarArray(disponibles);
-
 
     // =====================================================
     // CANTIDAD DE PREGUNTAS
     // =====================================================
-
     if (cantidad === "todos") {
-
-        paisesPendientes =
-            disponibles.slice();
-
+        paisesPendientes = disponibles.slice();
     } else {
-
-        const numero =
-            parseInt(cantidad, 10);
-
-        paisesPendientes =
-            disponibles.slice(
+        const numero = parseInt(cantidad, 10);
+        paisesPendientes = disponibles.slice(
                 0,
                 Math.min(
                     numero,
                     disponibles.length
                 )
             );
-
     }
-
 
     // =====================================================
     // REINICIAR ESTADÍSTICAS
     // =====================================================
-
     aciertosCapital = 0;
     erroresCapital = 0;
     erroresCapitalDetalle = [];
-
     numeroPreguntaCapital = 0;
-
     capitalesRespondida = false;
-
-
-    document.getElementById(
-        "aciertosCapital"
-    ).textContent = "0";
-
-
-    document.getElementById(
-        "erroresCapital"
-    ).textContent = "0";
-
-
-    document.getElementById(
-        "erroresDetalle"
-    ).innerHTML = "";
-
+    document.getElementById("aciertosCapital").textContent = "0";
+    document.getElementById("erroresCapital").textContent = "0";
+    document.getElementById("erroresDetalle").innerHTML = "";
 
     // =====================================================
     // OCULTAR CONFIGURACIÓN
     // =====================================================
-
-    document.getElementById(
-        "seleccionContinente"
-    ).style.display = "none";
-
+    document.getElementById("seleccionContinente").style.display = "none";
 
     // =====================================================
     // MOSTRAR JUEGO
     // =====================================================
-
-    document.getElementById(
-        "numeroPregunta"
-    ).style.display = "block";
-
-
-    document.getElementById(
-        "preguntaCapital"
-    ).style.display = "block";
-
-
-    document.querySelector(
-        "#juegoCapitales .opciones"
-    ).style.display = "flex";
-
-
-    document.getElementById(
-        "btnSiguiente"
-    ).style.display = "block";
-
-
-    document.getElementById(
-        "finRonda"
-    ).style.display = "none";
-
+    document.getElementById("numeroPregunta").style.display = "block";
+    document.getElementById("preguntaCapital").style.display = "block";
+    document.querySelector("#juegoCapitales .opciones").style.display = "flex";
+    document.getElementById("btnSiguiente").style.display = "block";
+    document.getElementById("finRonda").style.display = "none";
 
     // =====================================================
     // INICIAR CRONÓMETRO
     // =====================================================
-
     iniciarCronometro();
-
 
     // =====================================================
     // PRIMERA PREGUNTA
     // =====================================================
-
     siguienteCapital();
-
-}
-
+};
 
 /* =====================================================
    INICIAR JUEGO PAISES
 ===================================================== */
-
 function iniciarMapa() {
-
-detenerCronometro();
-
-partidaActiva = false;
-
-juegoActivo = "mapa";
-
-
-document.getElementById(
-"menu"
-).style.display = "none";
-
-
-document.getElementById(
-"juegoCapitales"
-).style.display = "none";
-
-
-document.getElementById(
-"resultado"
-).style.display = "none";
-
-
-document.getElementById(
-"panelJuego"
-).style.display = "none";
-
-
-document.getElementById(
-"map"
-).style.display = "block";
-
-
-document.getElementById(
-"configuracion"
-).style.display = "block";
-
-
-ocultarCronometro();
-
-
-if (!mapa) {
-
-mapa =
-L.map(
-"map",
-{
-minZoom:1,
-maxZoom:7,
-worldCopyJump:false
-}
-).setView(
-[20,0],
-2
-);
-
-
-L.tileLayer(
-"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-{
-attribution:"© OpenStreetMap"
-}
-).addTo(mapa);
-
-
-cargarGeoJSON();
-
-}
-
-else {
-
-setTimeout(
-function(){
-
-mapa.invalidateSize();
-
-},
-100
-);
-
-}
-
-}
-
+	detenerCronometro();
+	partidaActiva = false;
+	juegoActivo = "mapa";
+	document.getElementById("menu").style.display = "none";
+	document.getElementById("juegoCapitales").style.display = "none";
+	document.getElementById("resultado").style.display = "none";
+	document.getElementById("panelJuego").style.display = "none";
+	document.getElementById("map").style.display = "block";
+	document.getElementById("configuracion").style.display = "block";
+	ocultarCronometro();
+	if (!mapa) {
+		mapa = L.map("map",	{
+			minZoom:1,
+			maxZoom:7,
+			worldCopyJump:false
+		}).setView([20,0],2);
+		L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap"}).addTo(mapa);
+		cargarGeoJSON();
+	}
+	else {
+		setTimeout(
+		function(){
+			mapa.invalidateSize();
+		},
+		100
+		);
+	}
+};
 
 /* =====================================================
    VOLVER AL MENU
-===================================================== */
-
+==================================================== */
 function volverMenu() {
-
-detenerCronometro();
-
-partidaActiva = false;
-
-esperando = false;
-
-capitalesRespondida = true;
-
-juegoActivo = null;
-
-
-document.getElementById(
-"menu"
-).style.display = "flex";
-
-
-document.getElementById(
-"configuracion"
-).style.display = "none";
-
-
-document.getElementById(
-"panelJuego"
-).style.display = "none";
-
-
-document.getElementById(
-"resultado"
-).style.display = "none";
-
-
-document.getElementById(
-"juegoCapitales"
-).style.display = "none";
-
-
-document.getElementById(
-"map"
-).style.display = "none";
-
-
-ocultarCronometro();
-
-}
-
+	detenerCronometro();
+	partidaActiva = false;
+	esperando = false;
+	capitalesRespondida = true;
+	juegoActivo = null;
+	document.getElementById("menu").style.display = "flex";
+	document.getElementById("configuracion").style.display = "none";
+	document.getElementById("panelJuego").style.display = "none";
+	document.getElementById("resultado").style.display = "none";
+	document.getElementById("juegoCapitales").style.display = "none";
+	document.getElementById("map").style.display = "none";
+	ocultarCronometro();
+};
 
 /* =====================================================
    SELECCIONAR CONTINENTE CAPITALES
@@ -1873,647 +1348,244 @@ nuevaRondaCapitales();
 /* =====================================================
    NUEVA RONDA CAPITALES
 ===================================================== */
-
 function nuevaRondaCapitales() {
-
     comenzarCapitales();
-
-}
-
+};
 
 /* =====================================================
    MEZCLAR
 ===================================================== */
-
 function mezclarArray(array) {
-
-for (
-let i = array.length - 1;
-i > 0;
-i--
-) {
-
-const j =
-Math.floor(
-Math.random() *
-(i + 1)
-);
-
-[
-array[i],
-array[j]
-] =
-[
-array[j],
-array[i]
-];
-
-}
-
-}
-
+	for (
+		let i = array.length - 1;
+		i > 0;
+		i--
+	) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[array[i],	array[j]] =	[array[j],	array[i]];
+	}
+};
 
 /* =====================================================
    SIGUIENTE CAPITAL
 ===================================================== */
-
 function siguienteCapital() {
-
-if(!partidaActiva)
-return;
-
-
-if (
-paisesPendientes.length === 0
-) {
-
-terminarRondaCapitales();
-
-return;
-
-}
-
-
-capitalesRespondida = false;
-
-
-const botones =
-document.querySelectorAll(
-".opciones button"
-);
-
-
-botones.forEach(function(boton) {
-
-boton.disabled = false;
-
-boton.classList.remove(
-"correcta"
-);
-
-boton.classList.remove(
-"incorrecta"
-);
-
-});
-
-
-document.getElementById(
-"resultadoCapital"
-).innerHTML = "";
-
-
-capitalActual =
-paisesPendientes.shift();
-
-
-numeroPreguntaCapital++;
-
-
-const total =
-continenteSeleccionado === "Mundo"
-? basePaises.length
-: basePaises.filter(function(pais) {
-
-return (
-pais.continente ===
-continenteSeleccionado
-);
-
-}).length;
-
-
-document.getElementById(
-"numeroPregunta"
-).textContent =
-
-"Pregunta " +
-numeroPreguntaCapital +
-" de " +
-total;
-
-
-document.getElementById(
-"preguntaCapital"
-).innerHTML =
-
-"🏛️ ¿Cuál es la capital de " +
-
-"<strong>" +
-
-capitalActual.nombre +
-
-"</strong>?";
-
-
-let respuestas = [
-
-capitalActual.capital
-
-];
-
-
-const candidatos =
-basePaises.filter(function(pais) {
-
-return (
-pais.nombre !==
-capitalActual.nombre &&
-
-pais.capital !==
-capitalActual.capital
-
-);
-
-});
-
-
-mezclarArray(
-candidatos
-);
-
-
-respuestas.push(
-candidatos[0].capital
-);
-
-respuestas.push(
-candidatos[1].capital
-);
-
-
-mezclarArray(
-respuestas
-);
-
-
-opcionesCapitales =
-respuestas;
-
-
-respuestaCorrectaCapital =
-respuestas.indexOf(
-capitalActual.capital
-);
-
-
-for (
-let i = 0;
-i < 3;
-i++
-) {
-
-document.getElementById(
-"opcion" + i
-).textContent =
-respuestas[i];
-
-}
-
-}
-
+	if(!partidaActiva)
+	return;
+	if (paisesPendientes.length === 0) {
+		terminarRondaCapitales();
+		return;
+	}
+	capitalesRespondida = false;
+	const botones = document.querySelectorAll(".opciones button");
+	botones.forEach(function(boton) {
+		boton.disabled = false;
+		boton.classList.remove("correcta");
+		boton.classList.remove("incorrecta");
+	});
+	document.getElementById("resultadoCapital").innerHTML = "";
+	capitalActual =	paisesPendientes.shift();
+	numeroPreguntaCapital++;
+	const total =
+	continenteSeleccionado === "Mundo"
+	? basePaises.length
+	: basePaises.filter(function(pais) {
+		return (pais.continente ===	continenteSeleccionado);
+	}).length;
+	document.getElementById("numeroPregunta").textContent =	"Pregunta " +	numeroPreguntaCapital +	" de " + total;
+	document.getElementById("preguntaCapital").innerHTML ="🏛️ ¿Cuál es la capital de " +"<strong>" +capitalActual.nombre +	"</strong>?";
+	let respuestas = [capitalActual.capital];
+	const candidatos = basePaises.filter(function(pais) {
+		return (
+			pais.nombre !==
+			capitalActual.nombre &&
+			pais.capital !==
+			capitalActual.capital
+		);
+	});
+	mezclarArray(candidatos);
+	respuestas.push(candidatos[0].capital);
+	respuestas.push(candidatos[1].capital);
+	mezclarArray(respuestas);
+	opcionesCapitales =	respuestas;
+	respuestaCorrectaCapital =	respuestas.indexOf(capitalActual.capital);
+	for (
+		let i = 0;
+		i < 3;
+		i++
+	) {
+		document.getElementById("opcion" + i).textContent =	respuestas[i];
+	}
+};
 
 /* =====================================================
    RESPONDER CAPITAL
 ===================================================== */
 
-function responderCapital(
-indiceRespuesta
-) {
-
-if(!partidaActiva)
-return;
-
-
-if (
-capitalesRespondida
-) {
-
-return;
-
-}
-
-
-capitalesRespondida = true;
-
-
-const botones =
-document.querySelectorAll(
-".opciones button"
-);
-
-
-botones.forEach(function(boton) {
-
-boton.disabled = true;
-
-});
-
-
-if (
-indiceRespuesta ===
-respuestaCorrectaCapital
-) {
-
-aciertosCapital++;
-
-
-document.getElementById(
-"aciertosCapital"
-).textContent =
-aciertosCapital;
-
-
-botones[indiceRespuesta]
-.classList.add(
-"correcta"
-);
-
-
-document.getElementById(
-"resultadoCapital"
-).innerHTML =
-"✅ ¡Correcto!";
-
-}
-
-else {
-
-erroresCapital++;
-
-
-document.getElementById(
-"erroresCapital"
-).textContent =
-erroresCapital;
-
-
-botones[indiceRespuesta]
-.classList.add(
-"incorrecta"
-);
-
-
-botones[
-respuestaCorrectaCapital
-]
-.classList.add(
-"correcta"
-);
-
-
-erroresCapitalDetalle.push({
-
-pais:
-capitalActual.nombre,
-
-elegida:
-opcionesCapitales[indiceRespuesta],
-
-correcta:
-capitalActual.capital
-
-});
-
-
-document.getElementById(
-"resultadoCapital"
-).innerHTML =
-
-"❌ Incorrecto.<br>" +
-
-"La capital es " +
-
-"<strong>" +
-
-capitalActual.capital +
-
-"</strong>";
-
-
-mostrarErrores();
-
-}
-
-}
-
+function responderCapital(indiceRespuesta) {
+	if(!partidaActiva)
+	return;
+	if (capitalesRespondida) {
+		return;
+	}
+	capitalesRespondida = true;
+	const botones =	document.querySelectorAll(".opciones button");
+	botones.forEach(function(boton) {
+		boton.disabled = true;
+	});
+	if (indiceRespuesta ===respuestaCorrectaCapital) {
+		aciertosCapital++;
+		document.getElementById("aciertosCapital").textContent =aciertosCapital;
+		botones[indiceRespuesta].classList.add("correcta");
+		document.getElementById("resultadoCapital").innerHTML =	"✅ ¡Correcto!";
+		puntaje +=10;
+	}
+	else {
+		erroresCapital++;
+		document.getElementById("erroresCapital").textContent =	erroresCapital;
+		botones[indiceRespuesta].classList.add("incorrecta");
+		botones[respuestaCorrectaCapital].classList.add("correcta");
+		erroresCapitalDetalle.push({pais:capitalActual.nombre,	elegida:opcionesCapitales[indiceRespuesta],	correcta:capitalActual.capital});
+		document.getElementById("resultadoCapital").innerHTML =	"❌ Incorrecto.<br>" +	"La capital es " +	"<strong>" +	capitalActual.capital +	"</strong>";
+		mostrarErrores();
+	}
+};
 
 /* =====================================================
    MOSTRAR ERRORES CAPITALES
 ===================================================== */
-
 function mostrarErrores() {
-
-const contenedor =
-document.getElementById(
-"erroresDetalle"
-);
-
-
-contenedor.innerHTML =
-"<h3>❌ Países que fallaste</h3>";
-
-
-erroresCapitalDetalle.forEach(
-function(error) {
-
-const div =
-document.createElement(
-"div"
-);
-
-
-div.className =
-"errorItem";
-
-
-div.innerHTML =
-
-"<strong>" +
-
-error.pais +
-
-"</strong><br>" +
-
-"Tu respuesta: " +
-
-error.elegida +
-
-"<br>" +
-
-"Respuesta correcta: " +
-
-error.correcta;
-
-
-contenedor.appendChild(
-div
-);
-
-});
-
-}
-
+	const contenedor = document.getElementById("erroresDetalle");
+	contenedor.innerHTML =	"<h3>❌ Países que fallaste</h3>";
+	erroresCapitalDetalle.forEach(
+		function(error) {
+			const div =	document.createElement("div");
+			div.className =	"errorItem";
+			div.innerHTML =	"<strong>" +error.pais +"</strong><br>" +	"Tu respuesta: " +	error.elegida +	"<br>" +"Respuesta correcta: " +error.correcta;
+			contenedor.appendChild(
+				div
+			);
+		});
+};
 
 /* =====================================================
    TERMINAR CAPITALES
 ===================================================== */
-
 function terminarRondaCapitales() {
-
-if(
-!partidaActiva &&
-document.getElementById(
-"finRonda"
-).style.display === "block"
-){
-
-return;
-
-}
-
-
-partidaActiva = false;
-
-capitalesRespondida = true;
-
-detenerCronometro();
-
-
-document.getElementById(
-"preguntaCapital"
-).style.display =
-"none";
-
-
-document.querySelector(
-".opciones"
-).style.display =
-"none";
-
-
-document.getElementById(
-"btnSiguiente"
-).style.display =
-"none";
-
-
-document.getElementById(
-"numeroPregunta"
-).style.display =
-"none";
-
-
-document.getElementById(
-"finRonda"
-).style.display =
-"block";
-
-
-const total =
-continenteSeleccionado === "Mundo"
-? basePaises.length
-: basePaises.filter(function(pais) {
-
-return (
-pais.continente ===
-continenteSeleccionado
-);
-
-}).length;
-
-
-const respondidas =
-aciertosCapital +
-erroresCapital;
-
-
-const porcentaje =
-respondidas > 0
-? Math.round(
-aciertosCapital /
-respondidas *
-100
-)
-: 0;
-
-
-/*
-   Diferenciamos si terminó
-   por tiempo o por completar
-   todos los países.
-*/
-
-const mensajeTiempo =
-tiempoRestante === 0
-? "⏱️ ¡Se terminó el tiempo!"
-: "🎉 ¡Completaste todas las preguntas!";
-
-
-document.getElementById(
-"resultadoFinal"
-).innerHTML =
-
-mensajeTiempo +
-
-"<br><br>" +
-
-"🌎 " +
-
-continenteSeleccionado +
-
-"<br><br>" +
-
-"🏆 Aciertos: " +
-
-"<strong>" +
-
-aciertosCapital +
-
-"</strong><br><br>" +
-
-"📊 Precisión: " +
-
-"<strong>" +
-
-porcentaje +
-
-"%</strong><br><br>" +
-
-"❌ Errores: " +
-
-"<strong>" +
-
-erroresCapital +
-
-"</strong><br><br>" +
-
-"📝 Preguntas respondidas: " +
-
-"<strong>" +
-
-respondidas +
-
-"</strong>";
-
-}
-
+	if(!partidaActiva && document.getElementById("finRonda").style.display === "block"){
+		return;
+	}
+	partidaActiva = false;
+	capitalesRespondida = true;
+	detenerCronometro();
+	document.getElementById("preguntaCapital").style.display ="none";
+	document.querySelector(".opciones").style.display =	"none";
+	document.getElementById("btnSiguiente").style.display ="none";
+	document.getElementById("numeroPregunta").style.display ="none";
+	document.getElementById("finRonda").style.display =	"block";
+	const total = continenteSeleccionado === "Mundo"
+	? basePaises.length
+	: basePaises.filter(function(pais) {
+		return (
+			pais.continente ===
+			continenteSeleccionado
+		);
+	}).length;
+	const respondidas =	aciertosCapital +	erroresCapital;
+	const porcentaje =	respondidas > 0	? Math.round(
+		aciertosCapital /
+		respondidas *
+		100
+	): 0;
+	/*
+	   Diferenciamos si terminó
+	   por tiempo o por completar
+	   todos los países.
+	*/
+	const mensajeTiempo = tiempoRestante === 0
+		? "⏱️ ¡Se terminó el tiempo!"
+		: "🎉 ¡Completaste todas las preguntas!";
+	document.getElementById("resultadoFinal").innerHTML =	mensajeTiempo +	"<br><br>" +"🌎 " +	continenteSeleccionado +"<br><br>" +"🏆 Aciertos: " +"<strong>" +aciertosCapital +"</strong><br><br>"
+	+	"📊 Precisión: " +"<strong>" +	porcentaje +	"%</strong><br><br>" +	"❌ Errores: " +	"<strong>" +	erroresCapital +	"</strong><br><br>" +	"📝 Preguntas respondidas: " +	"<strong>" +	respondidas +	"</strong>";
+};
 
 /* =====================================================
    CREAR MAPA
 ===================================================== */
-
 function cargarGeoJSON() {
+	fetch("https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson").then(
+		respuesta =>
+		respuesta.json()
+	)
+	.then(
+		datos => {
+			capaPaises =L.geoJSON(datos,{
+				style:{
+					color:"#777",
+					weight:1,
+					fillColor:"#ffffff",
+					fillOpacity:.85
+				},
+				onEachFeature:
+				function(feature,layer){
+					layer.nombrePais =	nombreEspanol(obtenerNombre(feature));
+					layer.on("click",
+					function(){
+						seleccionarPais(layer);
+					});
+					layer.on("mouseover",
+					function(){
+						if(!esperando)
+						return;
+						layer.setStyle({
+						weight:2,
+						color:"#444"
+						});
+					});
+					layer.on("mouseout",
+					function(){
+						if(!esperando)
+						return;
+						layer.setStyle({
+						weight:1,
+						color:"#777"
+						});
+					});
+				}
+			}).addTo(mapa);
+	}).catch(
+	error => {
+		console.error(error);
+		document.getElementById(
+		"objetivo"
+		).textContent =
+		"⚠️ No se pudo cargar el mapa";
+	});
+};
 
-fetch(
-"https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson"
-)
-
-.then(
-respuesta =>
-respuesta.json()
-)
-
-.then(
-datos => {
-
-capaPaises =
-L.geoJSON(
-datos,
-{
-
-style:{
-
-color:"#777",
-
-weight:1,
-
-fillColor:"#ffffff",
-
-fillOpacity:.85
-
-},
-
-
-onEachFeature:
-function(
-feature,
-layer
-){
-layer.nombrePais =
-nombreEspanol(
-obtenerNombre(feature)
-);
-layer.on(
-"click",
-function(){
-
-seleccionarPais(
-layer
-);
-
-});
-
-layer.on(
-"mouseover",
-function(){
-if(!esperando)
-return;
-layer.setStyle({
-weight:2,
-color:"#444"
-});
-});
-layer.on(
-"mouseout",
-function(){
-if(!esperando)
-return;
-layer.setStyle({
-weight:1,
-color:"#777"
-});
-});
-}
-}
-)
-.addTo(mapa);
-}
-)
-.catch(
-error => {
-console.error(error);
-document.getElementById(
-"objetivo"
-).textContent =
-"⚠️ No se pudo cargar el mapa";
-}
-);
-}
 /* =====================================================
    OBTENER NOMBRE GEOJSON
 ===================================================== */
 function obtenerNombre(feature){
-const p =
-feature.properties || {};
-return (
-p.ADMIN ||
-p.NAME ||
-p.NAME_LONG ||
-p.name ||
-""
-);
+	const p =feature.properties || {};
+	return (
+		p.ADMIN ||
+		p.NAME ||
+		p.NAME_LONG ||
+		p.name ||
+		""
+	);
 }
+
 /* =====================================================
    NORMALIZAR
 ===================================================== */
-
 function normalizar(texto){
-return String(texto)
-.normalize("NFD")
-.replace(/[\u0300-\u036f]/g, "")
-.toLowerCase()
-.replace(/[^a-z0-9]/g, "");
+	return String(texto)
+	.normalize("NFD")
+	.replace(/[\u0300-\u036f]/g, "")
+	.toLowerCase()
+	.replace(/[^a-z0-9]/g, "");
 }
 /* =====================================================
    EQUIVALENCIAS GEOJSON
@@ -2718,504 +1790,314 @@ const nombresGeoJSON = {
 "tuvalu": "Tuvalu",
 "vanuatu": "Vanuatu"
 };
+
 /* =====================================================
    NOMBRE ESPAÑOL
 ===================================================== */
 function nombreEspanol(nombre){
-const normalizado =
-normalizar(nombre);
-return (
-nombresGeoJSON[
-normalizado
-] ||
-nombre
-);
+	const normalizado =	normalizar(nombre);
+	return (
+		nombresGeoJSON[normalizado] ||	nombre
+	);
 }
+
 /* =====================================================
    COMPARAR PAÍSES
 ===================================================== */
-function esMismoPais(
-nombreMapa,
-nombreObjetivo
-){
-const mapaEspanol =
-nombreEspanol(
-nombreMapa
-);
-return (
-normalizar(mapaEspanol) ===
-normalizar(nombreObjetivo)
-);
-}
+function esMismoPais(nombreMapa,nombreObjetivo){
+	const mapaEspanol =	nombreEspanol(nombreMapa);
+	return (
+		normalizar(mapaEspanol) ===	normalizar(nombreObjetivo)
+	);
+};
+
 /* =====================================================
    BARAJAR PAISES
 ===================================================== */
 function barajar(array){
-const copia =
-[...array];
-for(
-let i=copia.length-1;
-i>0;
-i--
-){
-const j =
-Math.floor(
-Math.random() *
-(i+1)
-);
-[
-copia[i],
-copia[j]
-]=
-[
-copia[j],
-copia[i]
-];
-}
-return copia;
-}
+	const copia =
+	[...array];
+	for(let i=copia.length-1;i>0;i--){
+		const j = Math.floor(Math.random() *(i+1));
+		[copia[i],	copia[j]]=	[copia[j],copia[i]];
+	}
+	return copia;
+};
+
 /* =====================================================
    CENTRAR MAPA
 ===================================================== */
-function centrarContinente(
-continente
-){
-const vista =
-vistasContinentes[
-continente
-];
-if(!vista)
-return;
-mapa.flyTo(
-vista.centro,
-vista.zoom,
-{
-animate:true,
-duration:1
-}
-);
-}
+function centrarContinente(continente){
+	const vista =vistasContinentes[continente];
+	if(!vista)
+	return;
+	mapa.flyTo(vista.centro,vista.zoom,{
+		animate:true,
+		duration:1
+	});
+};
+
 /* =====================================================
    MOSTRAR CONFIGURACION
 ===================================================== */
 function mostrarConfiguracion(){
-if(juegoActivo !== "mapa")
-return;
-partidaActiva = false;
-esperando = false;
-detenerCronometro();
-ocultarCronometro();
-document.getElementById(
-"configuracion"
-).style.display="block";
-document.getElementById(
-"panelJuego"
-).style.display="none";
-document.getElementById(
-"resultado"
-).style.display="none";
-document.getElementById(
-"map"
-).style.display="block";
-}
+	if(juegoActivo !== "mapa")
+	return;
+	partidaActiva = false;
+	esperando = false;
+	detenerCronometro();
+	ocultarCronometro();
+	document.getElementById("configuracion").style.display="block";
+	document.getElementById("panelJuego").style.display="none";
+	document.getElementById("resultado").style.display="none";
+	document.getElementById("map").style.display="block";
+};
+
 /* =====================================================
    COMENZAR PARTIDA PAISES
 ===================================================== */
 function comenzarPartida(){
-if(!capaPaises){
-alert(
-"El mapa todavía está cargando."
-);
-return;
-}
-const continente =
-document.getElementById(
-"selectorContinente"
-).value;
-const cantidad =
-document.getElementById(
-"selectorCantidad"
-).value;
-let disponibles;
-if (
-    continente === "Todos"
-) {
-
-    disponibles =
-        [...paises];
-
-}
-else {
-
-    /*
-     * Equivalencias entre los nombres
-     * usados por el selector y la base.
-     */
-
-    const equivalenciasContinente = {
-
-        "América del Norte":
-            "Norteamérica",
-
-        "América Central":
-            "Centroamérica y Caribe",
-
-        "Caribe":
-            "Centroamérica y Caribe",
-
-        "América del Sur":
-            "Sudamérica",
-
-        "Europa":
-            "Europa",
-
-        "África":
-            "África",
-
-        "Asia":
-            "Asia",
-
-        "Oceanía":
-            "Oceanía"
-
-    };
-
-
-    const continenteBase =
-        equivalenciasContinente[
-            continente
-        ] || continente;
-
-
-    disponibles =
-        paises.filter(
-            function(pais) {
-
-                return (
-                    pais[2] ===
-                    continenteBase
-                );
-
-            }
-        );
-
-}
-if (disponibles.length === 0) {
-
-    console.error(
-        "No hay preguntas para el continente:",
-        continente
-    );
-
-    alert(
-        "No hay países disponibles para esta selección."
-    );
-
-    return;
-}
-disponibles =
-barajar(disponibles);
-if(cantidad==="todos"){
-partida =
-disponibles;
-}
-else{
-const numero =
-parseInt(cantidad);
-partida =
-disponibles.slice(
-0,
-Math.min(
-numero,
-disponibles.length
-)
-);
-}
-indice=0;
-aciertos=0;
-errores=0;
-erroresDetalle=[];
-esperando=true;
-partidaActiva=true;
-juegoActivo="mapa";
-capaPaises.eachLayer(
-layer => {
-layer.setStyle({
-color:"#777",
-weight:1,
-fillColor:"#ffffff",
-fillOpacity:.85
-});
-layer.closeTooltip();
-}
-);
-document.getElementById(
-"configuracion"
-).style.display="none";
-document.getElementById(
-"panelJuego"
-).style.display="block";
-document.getElementById(
-"resultado"
-).style.display="none";
-document.getElementById(
-"botonNueva"
-).style.display="block";
-centrarContinente(
-continente
-);
-actualizarMarcadores();
-/*
-   Iniciar los 2 minutos.
-*/
-iniciarCronometro();
-mostrarPregunta();
-}
-
+	if(!capaPaises){
+		alert("El mapa todavía está cargando.");
+		return;
+	}
+	const continente =	document.getElementById("selectorContinente").value;
+	const cantidad =document.getElementById("selectorCantidad").value;
+	let disponibles;
+	if (
+		continente === "Todos"
+	) {
+		disponibles =[...paises];
+	}
+	else {
+		/*
+		 * Equivalencias entre los nombres
+		 * usados por el selector y la base.
+		 */
+		const equivalenciasContinente = {
+			"América del Norte":
+				"Norteamérica",
+			"América Central":
+				"Centroamérica y Caribe",
+			"Caribe":
+				"Centroamérica y Caribe",
+			"América del Sur":
+				"Sudamérica",
+			"Europa":
+				"Europa",
+			"África":
+				"África",
+			"Asia":
+				"Asia",
+			"Oceanía":
+				"Oceanía"
+		};
+		const continenteBase =	equivalenciasContinente[continente] || continente;
+		disponibles = paises.filter(
+				function(pais) {
+					return (
+						pais[2] ===
+						continenteBase
+					);
+				}
+			);
+	}
+	if (disponibles.length === 0) {
+		console.error("No hay preguntas para el continente:",continente);
+		alert("No hay países disponibles para esta selección.");
+		return;
+	}
+	disponibles =barajar(disponibles);
+	if(cantidad==="todos"){
+		partida =
+		disponibles;
+	}
+	else{
+		const numero =	parseInt(cantidad);
+		partida = disponibles.slice(0,Math.min(numero,disponibles.length));
+	}
+	indice=0;
+	aciertos=0;
+	errores=0;
+	erroresDetalle=[];
+	esperando=true;
+	partidaActiva=true;
+	juegoActivo="mapa";
+	capaPaises.eachLayer(
+	layer => {
+		layer.setStyle({
+			color:"#777",
+			weight:1,
+			fillColor:"#ffffff",
+			fillOpacity:.85
+		});
+		layer.closeTooltip();
+		}
+	);
+	document.getElementById("configuracion").style.display="none";
+	document.getElementById("panelJuego").style.display="block";
+	document.getElementById("resultado").style.display="none";
+	document.getElementById("botonNueva").style.display="block";
+	centrarContinente(continente);
+	actualizarMarcadores();
+	/*
+	   Iniciar los 2 minutos.
+	*/
+	iniciarCronometro();
+	mostrarPregunta();
+};
 
 /* =====================================================
    MOSTRAR PREGUNTA MAPA
 ===================================================== */
 function mostrarPregunta(){
-if(!partidaActiva)
-return;
-if(
-indice>=partida.length
-){
-terminarPartida();
-return;
-}
-const pais =
-partida[indice][0];
-const continente =
-partida[indice][1];
-document.getElementById(
-"objetivo"
-).textContent =
-"🎯 Encontrá: " + pais;
-document.getElementById(
-"continente"
-).textContent =
-"Continente: " + continente;
-document.getElementById(
-"numero"
-).textContent =
-indice+1;
-esperando=true;
-}
+	if(!partidaActiva)
+	return;
+	if(indice>=partida.length){
+		terminarPartida();
+		return;
+	}
+	const pais = partida[indice][0];
+	const continente = partida[indice][1];
+	document.getElementById("objetivo").textContent ="🎯 Encontrá: " + pais;
+	document.getElementById("continente").textContent =	"Continente: " + continente;
+	document.getElementById("numero").textContent =	indice+1;
+	esperando=true;
+};
+
 /* =====================================================
    SELECCIONAR PAIS
 ===================================================== */
 function seleccionarPais(layer){
-if(!partidaActiva)
-return;
-if(!esperando)
-return;
-const paisObjetivo =
-partida[indice][0];
-const continente =
-partida[indice][1];
-const paisElegido =
-layer.nombrePais ||
-"Desconocido";
-const correcto =
-esMismoPais(
-paisElegido,
-paisObjetivo
-);
-layer.setStyle({
-fillColor:"#999999",
-fillOpacity:.95,
-color:"#444",
-weight:2
-});
-esperando=false;
-if(correcto){
-aciertos++;
-layer.bindTooltip(
-"✅ ¡Correcto!",
-{
-permanent:false
-}
-).openTooltip();
-}
-else{
-errores++;
-erroresDetalle.push({
-objetivo:paisObjetivo,
-elegido:paisElegido,
-continente:continente
-});
-layer.bindTooltip(
-"❌ Incorrecto",
-{
-permanent:false
-}
-).openTooltip();
-}
-actualizarMarcadores();
-/*
-   IMPORTANTE:
+	if(!partidaActiva)
+	return;
+	if(!esperando)
+	return;
+	const paisObjetivo =partida[indice][0];
+	const continente =	partida[indice][1];
+	const paisElegido =	layer.nombrePais ||	"Desconocido";
+	const correcto =esMismoPais(
+		paisElegido,
+		paisObjetivo
+	);
+	layer.setStyle({
+		fillColor:"#999999",
+		fillOpacity:.95,
+		color:"#444",
+		weight:2
+	});
+	esperando=false;
+	if(correcto){
+		aciertos++;
+		layer.bindTooltip("✅ ¡Correcto!",{permanent:false}).openTooltip();
+		puntaje +=10;
+	}
+	else{
+		errores++;
+		erroresDetalle.push({
+			objetivo:paisObjetivo,
+			elegido:paisElegido,
+			continente:continente
+		});
+		layer.bindTooltip("❌ Incorrecto",{permanent:false}).openTooltip();
+	}
+	actualizarMarcadores();
+	/*
+	   IMPORTANTE:
 
-   Si el tiempo termina durante
-   estos 700 ms, no avanzamos
-   la partida.
-*/
-setTimeout(
-function(){
-if(!partidaActiva)
-return;
-indice++;
-mostrarPregunta();
-actualizarMarcadores();
-},
-700
-);
-}
+	   Si el tiempo termina durante
+	   estos 700 ms, no avanzamos
+	   la partida.
+	*/
+	setTimeout(
+		function(){
+		if(!partidaActiva)
+		return;
+		indice++;
+		mostrarPregunta();
+		actualizarMarcadores();
+		},
+		700
+	);
+};
+
 /* =====================================================
    MARCADORES MAPA
 ===================================================== */
 function actualizarMarcadores(){
-document.getElementById(
-"numero"
-).textContent =
-Math.min(
-indice+1,
-partida.length
-);
-document.getElementById(
-"aciertos"
-).textContent =
-aciertos;
-document.getElementById(
-"errores"
-).textContent =
-errores;
-}
+	document.getElementById("numero").textContent =	Math.min(indice+1,partida.length);
+	document.getElementById("aciertos").textContent =	aciertos;
+	document.getElementById("errores").textContent =	errores;
+};
+
 /* =====================================================
    FINAL MAPA
 ===================================================== */
 function terminarPartida(){
-if(
-!partidaActiva &&
-document.getElementById(
-"resultado"
-).style.display === "flex"
-){
-return;
-}
-partidaActiva=false;
-esperando=false;
-detenerCronometro();
-const total =
-partida.length;
-const respondidas =
-aciertos +
-errores;
-const porcentaje =
-respondidas>0
-? Math.round(
-aciertos/respondidas*100
-)
-:0;
-document.getElementById(
-"resumen"
-).innerHTML =
+	if(!partidaActiva &&document.getElementById("resultado").style.display === "flex"){
+		return;
+	}
+	partidaActiva=false;
+	esperando=false;
+	detenerCronometro();
+	const total = partida.length;
+	const respondidas =	aciertos +	errores;
+	//const puntos=puntaje;
+	const porcentaje =	respondidas>0
+	? Math.round(aciertos/respondidas*100)
+	:0;
+	document.getElementById("resumen").innerHTML =	"<p>" +	"<b>" +	aciertos +	"</b> aciertos de " +	respondidas +	" - <strong>Puntos logrados: "+puntaje+"</strong>"+"</p>" +	"<p>🎯 Precisión: <b>" +	porcentaje
+	+	"%</b></p>" +	"<p>❌ Errores: <b>" +	errores	+	"</b></p>" +	"<p>📝 Preguntas respondidas: <b>" +	respondidas +	"</b></p>";
+	const detalle =	document.getElementById("detalle");
+	if(errores===0){
+		detalle.innerHTML =	"<p class='correcto'>" +	"🎉 ¡Excelente!<br>" +	"No cometiste ningún error." +	"</p>";
+	}
+	else{
+		let html =	"<h3>" +	"Países en los que te equivocaste" +	"</h3>";
+		erroresDetalle.forEach(
+		function(error,i){
+			html +=
+			"<div class='error'>" +
+			"<b>" +
+			(i+1) +
+			". " +
+			error.objetivo +
+			"</b><br>" +
+			"Continente: " +
+			error.continente +
+			"<br>" +
+			"Elegiste: " +
+			"<span class='incorrecto'>" +
+			error.elegido +
+			"</span>" +
+			"</div>";
+		}
+		);
+		detalle.innerHTML =	html;
+	}
+	if(tiempoRestante === 0){
+		document.getElementById("resultadoCaja").querySelector("h2").textContent =	"⏱️ ¡Tiempo agotado!";
+	}
+	else{
+		document.getElementById("resultadoCaja").querySelector("h2").textContent =	"🏁 Partida terminada";
+	}
+	document.getElementById("resultado").style.display="flex";
+};
 
-"<p>" +
-
-"<b>" +
-aciertos +
-"</b> aciertos de " +
-respondidas +
-"</p>" +
-"<p>🎯 Precisión: <b>" +
-porcentaje +
-"%</b></p>" +
-"<p>❌ Errores: <b>" +
-errores +
-"</b></p>" +
-"<p>📝 Preguntas respondidas: <b>" +
-respondidas +
-"</b></p>";
-const detalle =
-document.getElementById(
-"detalle"
-);
-if(errores===0){
-detalle.innerHTML =
-"<p class='correcto'>" +
-"🎉 ¡Excelente!<br>" +
-"No cometiste ningún error." +
-"</p>";
-}
-else{
-let html =
-"<h3>" +
-"Países en los que te equivocaste" +
-"</h3>";
-erroresDetalle.forEach(
-function(error,i){
-html +=
-"<div class='error'>" +
-"<b>" +
-(i+1) +
-". " +
-error.objetivo +
-"</b><br>" +
-"Continente: " +
-error.continente +
-"<br>" +
-"Elegiste: " +
-"<span class='incorrecto'>" +
-error.elegido +
-"</span>" +
-"</div>";
-}
-);
-detalle.innerHTML =
-html;
-}
-if(tiempoRestante === 0){
-document.getElementById(
-"resultadoCaja"
-).querySelector("h2")
-.textContent =
-"⏱️ ¡Tiempo agotado!";
-}
-else{
-document.getElementById(
-"resultadoCaja"
-).querySelector("h2")
-.textContent =
-"🏁 Partida terminada";
-}
-document.getElementById(
-"resultado"
-).style.display="flex";
-}
 function aplicarRestriccionVersion() {
-
     const selector = document.getElementById("selectorContinente");
 	const selectorcapitales = document.getElementById("selectorContinenteCapitales");
-
     if (!selector) return;
-
     //const esPro = window.dqcEsPro === true;
 	const esPro = window.dqcEsPro === undefined
     ? true
     : window.dqcEsPro === true;
-
-
     if (!esPro) {
-
         // ==========================
         // VERSIÓN LIBRE
         // ==========================
-
         selector.value = "América del Sur";
 		selectorcapitales.value = "Sudamérica";
-
         Array.from(selector.options).forEach(option => {
             if (option.value === "América del Sur") {
                 option.hidden = false;
@@ -3248,11 +2130,55 @@ function aplicarRestriccionVersion() {
             option.disabled = false;
         });
     }
-}
+};
+
 volverMenu();
 document.addEventListener("DOMContentLoaded", function () {
     aplicarRestriccionVersion();
 });
+
+/* =====================================================
+   BIENVENIDA DESDE LA APP ANDROID
+===================================================== */
+
+function mostrarBienvenida() {
+    const modal = document.getElementById("modalBienvenida");
+    if (modal) {
+        modal.style.display = "flex";
+    }
+};
+
+function cerrarBienvenida() {
+    const modal = document.getElementById("modalBienvenida");
+
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+
+/*
+   Android agregará ?desdeApp=1 al abrir este juego.
+
+   De esta manera:
+
+   Desde la APP:
+   .../juego.html?desdeApp=1
+        ↓
+   aparece el modal.
+
+   Desde Chrome:
+   .../juego.html
+        ↓
+   no aparece.
+*/
+
+document.addEventListener("DOMContentLoaded", function() {
+    const parametros = new URLSearchParams(window.location.search);
+    if (parametros.get("desdeApp") === "1") {
+        mostrarBienvenida();
+    }
+});
+
 </script>
 </body>
 </html>
